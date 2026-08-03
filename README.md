@@ -12,7 +12,7 @@ npm run dev
 
 ## Personalizar Un Tutorial
 
-Editá `src/config/tutorial.ts`. La configuración controla:
+Edita `src/config/tutorial.ts`. La configuración controla:
 
 - Nombre de la marca, subtítulo y logo opcional.
 - Metadata, idioma y comportamiento de indexación.
@@ -22,19 +22,20 @@ Editá `src/config/tutorial.ts`. La configuración controla:
 - Duración de la introducción, outro y cues de audio de la narración.
 - Colores de acento, fondo y teléfono.
 
-Para usar un logo personalizado, importá una imagen desde `src` y asignala a
-`brand.logoSrc`. Para usar otro vídeo local, importá el asset y asignalo a
+Para usar un logo personalizado, importa una imagen desde `src` y asígnala a
+`brand.logoSrc`. Para usar otro vídeo local, importa el asset y asígnalo a
 `video.src`.
 
 El vídeo debe utilizar un formato compatible con navegadores, como MP4 con
-vídeo H.264. Actualizá `video.durationSeconds` cada vez que cambie el vídeo
+vídeo H.264. Actualiza `video.durationSeconds` cada vez que cambie el vídeo
 fuente. Los valores `sourceStart` y `sourceEnd` se expresan en segundos.
 
 ## Renderizar Un Vídeo
 
 El sitio interactivo funciona como previsualización. Remotion renderiza el
-mismo lenguaje visual como un MP4 fijo de `1080x1920` para usarlo dentro de la
-aplicación.
+mismo lenguaje visual como un MP4 fijo Full HD horizontal de `1920x1080`. El
+video de la aplicación se mantiene dentro de un teléfono vertical para no
+deformar la grabación fuente.
 
 ```bash
 npm run video:studio
@@ -42,7 +43,7 @@ npm run video:render
 ```
 
 El render utiliza el timeline de `src/config/tutorial.ts` y escribe
-`out/tutorial.mp4`. Guardá los vídeos fuente en `public/assets/` y referencialos
+`out/tutorial.mp4`. Guarda los vídeos fuente en `public/assets/` y refiérelos
 con una ruta como `assets/remate.mp4`.
 
 ### Sincronizar El Audio Con El Vídeo
@@ -65,10 +66,10 @@ Los valores principales son:
 - `output.introDurationSeconds`: duración de la introducción antes de mostrar el
   primer segmento del vídeo fuente.
 
-Por ejemplo, si la voz se escucha antes de que aparezca la acción, aumentá
-`startSeconds`. Si se escucha tarde, reducí ese valor. Si la imagen muestra el
-segmento equivocado, ajustá `sourceStart`, `sourceEnd` o la duración del
-capítulo. Después de cada cambio, regenerá el MP4 y revisá nuevamente la
+Por ejemplo, si la voz se escucha antes de que aparezca la acción, aumenta
+`startSeconds`. Si se escucha tarde, reduce ese valor. Si la imagen muestra el
+segmento equivocado, ajusta `sourceStart`, `sourceEnd` o la duración del
+capítulo. Después de cada cambio, regenera el MP4 y revisa nuevamente la
 sincronización.
 
 Cada cue de audio puede definir un guion de narración y un asset de audio
@@ -98,38 +99,38 @@ BlackHole. El proyecto espera un archivo de audio por escena o capítulo.
 
 ### Configurar El Audio En macOS
 
-1. Instalá BlackHole 2ch con Homebrew:
+1. Instala BlackHole 2ch con Homebrew:
 
    ```bash
    brew install blackhole-2ch
    ```
-2. Abrí `Audio MIDI Setup` en macOS.
-3. Creá un **dispositivo de salida múltiple** que incluya los altavoces o
+2. Abre `Audio MIDI Setup` en macOS.
+3. Crea un **dispositivo de salida múltiple** que incluya los altavoces o
    auriculares de la Mac y `BlackHole 2ch`.
-4. Usá los altavoces o auriculares como fuente de reloj principal y activá la
+4. Usa los altavoces o auriculares como fuente de reloj principal y activa la
    corrección de deriva para BlackHole si macOS muestra esa opción.
-5. Configurá la salida de macOS, o la salida de la aplicación de ChatGPT si
+5. Configura la salida de macOS, o la salida de la aplicación de ChatGPT si
    está disponible, en el dispositivo de salida múltiple.
-6. Configurá la entrada de la aplicación de grabación como `BlackHole 2ch`.
+6. Configura la entrada de la aplicación de grabación como `BlackHole 2ch`.
 
-Podés grabar con QuickTime, OBS, Audacity u otra aplicación de audio. Usá
-48 kHz cuando sea posible y monitoreá con auriculares para evitar feedback o
+Puedes grabar con QuickTime, OBS, Audacity u otra aplicación de audio. Usa
+48 kHz cuando sea posible y monitorea con auriculares para evitar feedback o
 eco.
 
 ### Configurar La Voz De ChatGPT
 
-Usá la voz de alta calidad definida para el proyecto. Las opciones actuales son
-`Sol` o `Maple`; mantené una única voz en toda la serie de tutoriales.
+Usa la voz de alta calidad definida para el proyecto. Las opciones actuales son
+`Sol` o `Maple`; mantén una única voz en toda la serie de tutoriales.
 
 Indicaciones recomendadas para la voz:
 
 - Español neutro, claro y profesional.
-- Pronunciación rioplatense cuando se use voseo.
+- Español neutro para Perú, con tratamiento de tú.
 - Ritmo moderado, con pausas breves entre instrucciones.
 - Leer el guion exactamente como está escrito.
 - Pronunciar de forma consistente los nombres de productos y términos técnicos.
 
-Grabá un archivo por cada capítulo configurado, utilizando nombres que
+Graba un archivo por cada capítulo configurado, utilizando nombres que
 coincidan con sus IDs:
 
 ```text
@@ -139,7 +140,7 @@ audio/raw/step-2.wav
 audio/raw/step-3.wav
 ```
 
-Mantené las grabaciones originales fuera de `public/` y colocá las versiones
+Mantén las grabaciones originales fuera de `public/` y coloca las versiones
 limpias en:
 
 ```text
@@ -149,10 +150,10 @@ public/audio/step-2.wav
 public/audio/step-3.wav
 ```
 
-Para archivos M4A procesados, podés usar una subcarpeta como
+Para archivos M4A procesados, puedes usar una subcarpeta como
 `public/audio/processed/` y referenciarla desde `audioSrc`.
 
-Después referenciá cada archivo en `src/config/tutorial.ts` dentro de
+Después referencia cada archivo en `src/config/tutorial.ts` dentro de
 `audioCues`:
 
 ```ts
@@ -166,7 +167,7 @@ Después referenciá cada archivo en `src/config/tutorial.ts` dentro de
 
 ### Procesar El Audio
 
-Para el flujo actual, recortá únicamente los primeros `1.5` segundos de cada
+Para el flujo actual, recorta únicamente los primeros `1.5` segundos de cada
 grabación. No uses eliminación automática de silencios, normalización ni
 conversión a mono, porque pueden cambiar el inicio o el carácter de la voz.
 Por ejemplo:
@@ -181,13 +182,13 @@ ffmpeg -y -i public/audio/intro-question.m4a \
   public/audio/processed/intro-question.m4a
 ```
 
-Si necesitás quitar solo un segundo, cambiá `start=1.5` por `start=1.0`. WAV,
+Si necesitas quitar solo un segundo, cambia `start=1.5` por `start=1.0`. WAV,
 MP3 y M4A están soportados, pero los archivos M4A procesados se pueden guardar
-en `public/audio/processed/`. Revisá la duración de cada audio contra el
+en `public/audio/processed/`. Revisa la duración de cada audio contra el
 siguiente cue y el final de su escena; un audio que se extienda fuera del
 timeline puede ser recortado durante el render.
 
-Como la voz es generada por un servicio de IA, revisá las condiciones de uso y
-los requisitos del producto antes de publicar el tutorial. Añadí una
+Como la voz es generada por un servicio de IA, revisa las condiciones de uso y
+los requisitos del producto antes de publicar el tutorial. Añade una
 declaración para los usuarios finales cuando lo exija el servicio de voz
 seleccionado o la política de la empresa.

@@ -35,7 +35,7 @@ function AppIcon({ config, size }: AppIconProps) {
   if (config.brand.logoSrc) {
     return (
       <img
-        src={mediaSource(config.brand.logoSrc)}
+        src={config.brand.logoSrc}
         alt=""
         width={size}
         height={size}

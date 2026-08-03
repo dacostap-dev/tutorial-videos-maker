@@ -1,11 +1,11 @@
 import type { TutorialConfig } from "./types"
+import appIcon from "../appicon.jpg"
 
 export const tutorialConfig = {
   brand: {
     name: "Maquinet",
     eyebrow: "Fondos Colectivos",
-    // Reemplazá undefined por un asset importado para usar un logo propio.
-    logoSrc: undefined,
+    logoSrc: appIcon,
   },
 
   metadata: {
@@ -20,8 +20,8 @@ export const tutorialConfig = {
     sectionLabel: "Sección que verás",
     sectionName: "Remate de cuotas",
     description:
-      "Aprendé a licitar cuotas de tu fondo colectivo y elegir cómo aplicar el beneficio obtenido.",
-    navigationHint: "Navegá con las flechas",
+      "Aprende a licitar cuotas de tu fondo colectivo y elegir cómo aplicar el beneficio obtenido.",
+    navigationHint: "Navega con las flechas",
   },
 
   video: {
@@ -33,8 +33,8 @@ export const tutorialConfig = {
   },
 
   output: {
-    width: 1080,
-    height: 1920,
+    width: 1920,
+    height: 1080,
     fps: 30,
     introDurationSeconds: 6,
     outroDurationSeconds: 4,
@@ -57,7 +57,7 @@ export const tutorialConfig = {
     {
       id: "intro-question",
       startSeconds: 0,
-      text: "¿Quieres realizar tu remate desde la app?",
+      text: "¿Quieres hacer tu remate desde la app?",
       audioSrc: "audio/processed/intro-question.m4a",
     },
     {
@@ -69,25 +69,25 @@ export const tutorialConfig = {
     {
       id: "open-remate",
       startSeconds: 6,
-      text: "Desde la pantalla principal, ingresa a la opción Remate.",
+      text: "Desde la pantalla principal, ingresa a la opción “Remate”.",
       audioSrc: "audio/processed/open-remate.m4a",
     },
     {
       id: "select-installments",
       startSeconds: 11,
-      text: "Escribe la cantidad de cuotas con las que deseas participar y pulsa Siguiente.",
+      text: "Escribe cuántas cuotas quieres rematar y toca “Siguiente”.",
       audioSrc: "audio/processed/select-installments.m4a",
     },
     {
       id: "choose-benefit",
       startSeconds: 17,
-      text: "Ahora elige cómo aplicar tu propuesta.",
+      text: "Elige cómo aplicar tu propuesta.",
       audioSrc: "audio/processed/choose-benefit.m4a",
     },
     {
       id: "benefit-options",
       startSeconds: 19,
-      text: "Puedes reducir el plazo o reducir el valor de tu cuota.",
+      text: "Puedes reducir el plazo o el valor de tu cuota.",
       audioSrc: "audio/processed/benefit-options.m4a",
     },
     {
@@ -105,19 +105,19 @@ export const tutorialConfig = {
     {
       id: "open-terms",
       startSeconds: 33,
-      text: "Para conocer las condiciones, pulsa Términos y condiciones.",
+      text: "Consulta las condiciones en “Términos y condiciones”.",
       audioSrc: "audio/processed/open-terms.m4a",
     },
     {
       id: "read-terms",
       startSeconds: 37,
-      text: "Lee la información con atención y luego vuelve a la propuesta.",
+      text: "Lee la información y vuelve a la propuesta.",
       audioSrc: "audio/processed/read-terms.m4a",
     },
     {
       id: "submit-remate",
       startSeconds: 41,
-      text: "Si estás de acuerdo, marca la casilla y pulsa Rematar para generar tu propuesta.",
+      text: "Si estás de acuerdo, marca la casilla y toca “Rematar”.",
       audioSrc: "audio/processed/submit-remate.m4a",
     },
     {
@@ -135,13 +135,13 @@ export const tutorialConfig = {
     {
       id: "withdraw",
       startSeconds: 53,
-      text: "Si cambias de opinión, puedes retirarla antes de que la asamblea inicie.",
+      text: "Si cambias de opinión, puedes retirarla antes de que comience la asamblea.",
       audioSrc: "audio/processed/withdraw.m4a",
     },
     {
       id: "delete-remate",
       startSeconds: 58,
-      text: "Pulsa Eliminar Remate y confirma la eliminación.",
+      text: "Toca “Eliminar remate” y confirma la eliminación.",
       audioSrc: "audio/processed/delete-remate.m4a",
     },
     {
@@ -158,16 +158,16 @@ export const tutorialConfig = {
       label: "Introducción",
       title: "Sección Remate",
       description:
-        "Conocé cómo funciona el Remate dentro de Maquinet. Una herramienta que te permite licitar cuotas de tu fondo colectivo y obtener beneficios anticipados.",
+        "Conoce cómo funciona el Remate dentro de Maquinet. Una herramienta que te permite licitar cuotas de tu fondo colectivo y obtener beneficios anticipados.",
       sourceStart: null,
       tag: "Descripción general",
     },
     {
       id: "step-1",
       label: "Paso 1",
-      title: "Seleccioná tus cuotas",
+      title: "Selecciona tus cuotas",
       description:
-        "Elegí las cuotas con las que querés participar del remate. Podés seleccionar una o varias cuotas disponibles en tu fondo.",
+        "Elige las cuotas con las que quieres participar del remate. Puedes seleccionar una o varias cuotas disponibles en tu fondo.",
       sourceStart: 0,
       sourceEnd: 30,
       tag: "Selección de cuotas",
@@ -175,7 +175,7 @@ export const tutorialConfig = {
     {
       id: "step-2",
       label: "Paso 2",
-      title: "Aplicá el beneficio",
+      title: "Aplica el beneficio",
       description:
         "Decidí si preferís reducir el monto de cada cuota mensual o acortar el plazo total de tu plan de ahorro.",
       sourceStart: 30,
