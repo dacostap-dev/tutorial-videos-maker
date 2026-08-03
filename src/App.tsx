@@ -1,42 +1,43 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect } from "react"
+import remateVideo from "./remate.mov"
 
 /* ── Chapter definitions ─────────────────────────────────────── */
 const CHAPTERS = [
   {
     id: 0,
-    label: 'Introducción',
-    title: 'Sección Remate',
+    label: "Introducción",
+    title: "Sección Remate",
     description:
-      'Conocé cómo funciona el Remate dentro de Maquinet. Una herramienta que te permite licitar cuotas de tu fondo colectivo y obtener beneficios anticipados.',
+      "Conocé cómo funciona el Remate dentro de Maquinet. Una herramienta que te permite licitar cuotas de tu fondo colectivo y obtener beneficios anticipados.",
     timestamp: null, // intro screen — no video
-    tag: 'Descripción general',
+    tag: "Descripción general",
   },
   {
     id: 1,
-    label: 'Paso 1',
-    title: 'Seleccioná tus cuotas',
+    label: "Paso 1",
+    title: "Seleccioná tus cuotas",
     description:
-      'Elegí las cuotas con las que querés participar del remate. Podés seleccionar una o varias cuotas disponibles en tu fondo.',
+      "Elegí las cuotas con las que querés participar del remate. Podés seleccionar una o varias cuotas disponibles en tu fondo.",
     timestamp: 0,
-    tag: 'Selección de cuotas',
+    tag: "Selección de cuotas",
   },
   {
     id: 2,
-    label: 'Paso 2',
-    title: 'Aplicá el beneficio',
+    label: "Paso 2",
+    title: "Aplicá el beneficio",
     description:
-      'Decidí si preferís reducir el monto de cada cuota mensual o acortar el plazo total de tu plan de ahorro.',
+      "Decidí si preferís reducir el monto de cada cuota mensual o acortar el plazo total de tu plan de ahorro.",
     timestamp: 30,
-    tag: 'Reducir cuotas · Reducir plazo',
+    tag: "Reducir cuotas · Reducir plazo",
   },
   {
     id: 3,
-    label: 'Paso 3',
-    title: 'Confirmación',
+    label: "Paso 3",
+    title: "Confirmación",
     description:
-      'El remate queda registrado y el beneficio se aplica en el próximo período de liquidación de tu fondo.',
+      "El remate queda registrado y el beneficio se aplica en el próximo período de liquidación de tu fondo.",
     timestamp: 55,
-    tag: 'Remate confirmado',
+    tag: "Remate confirmado",
   },
 ]
 
@@ -51,7 +52,7 @@ export default function App() {
   const goTo = (idx: number) => {
     if (idx < 0 || idx >= CHAPTERS.length) return
     setCurrent(idx)
-    setAnimKey(k => k + 1)
+    setAnimKey((k) => k + 1)
     const ts = CHAPTERS[idx].timestamp
     if (ts !== null && videoRef.current) {
       videoRef.current.currentTime = ts
@@ -67,19 +68,19 @@ export default function App() {
 
   return (
     <div className="grain relative min-h-screen bg-[#07090f] flex flex-col items-center justify-center overflow-hidden px-4 py-12">
-
       {/* Ambient glow behind phone */}
       <div
         className="absolute pointer-events-none"
         style={{
           width: 520,
           height: 520,
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(245,158,11,0.07) 0%, transparent 70%)',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          transition: 'opacity 0.6s ease',
+          borderRadius: "50%",
+          background:
+            "radial-gradient(circle, rgba(245,158,11,0.07) 0%, transparent 70%)",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          transition: "opacity 0.6s ease",
         }}
       />
 
@@ -93,7 +94,6 @@ export default function App() {
 
       {/* Main layout: side label + phone + side label */}
       <div className="relative z-10 flex items-center gap-8 w-full max-w-4xl">
-
         {/* Left info panel */}
         <div className="flex-1 hidden md:flex flex-col items-end gap-4 pr-4">
           <ChapterTag label={chapter.tag} />
@@ -115,11 +115,18 @@ export default function App() {
 
         {/* Phone frame */}
         <div className="flex-shrink-0 flex flex-col items-center gap-5">
-
           {/* Arrow up for mobile (hidden on md) */}
           <div className="flex md:hidden gap-4">
-            <NavArrow dir="left" disabled={current === 0} onClick={() => goTo(current - 1)} />
-            <NavArrow dir="right" disabled={current === CHAPTERS.length - 1} onClick={() => goTo(current + 1)} />
+            <NavArrow
+              dir="left"
+              disabled={current === 0}
+              onClick={() => goTo(current - 1)}
+            />
+            <NavArrow
+              dir="right"
+              disabled={current === CHAPTERS.length - 1}
+              onClick={() => goTo(current + 1)}
+            />
           </div>
 
           {/* The phone */}
@@ -130,13 +137,18 @@ export default function App() {
               height: 620,
               borderRadius: 44,
               boxShadow:
-                '0 0 0 1px rgba(255,255,255,0.06), 0 40px 100px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.08)',
+                "0 0 0 1px rgba(255,255,255,0.06), 0 40px 100px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.08)",
             }}
           >
             {/* Notch */}
             <div
               className="absolute top-0 left-1/2 -translate-x-1/2 z-20 bg-[#0f1117]"
-              style={{ width: 100, height: 28, borderBottomLeftRadius: 14, borderBottomRightRadius: 14 }}
+              style={{
+                width: 100,
+                height: 28,
+                borderBottomLeftRadius: 14,
+                borderBottomRightRadius: 14,
+              }}
             >
               <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-14 h-1 bg-white/10 rounded-full" />
             </div>
@@ -156,9 +168,9 @@ export default function App() {
               <div
                 className="text-[10px] font-semibold tracking-widest uppercase px-3 py-1 rounded-full"
                 style={{
-                  background: 'rgba(245,158,11,0.15)',
-                  color: '#f59e0b',
-                  border: '1px solid rgba(245,158,11,0.25)',
+                  background: "rgba(245,158,11,0.15)",
+                  color: "#f59e0b",
+                  border: "1px solid rgba(245,158,11,0.25)",
                 }}
               >
                 {chapter.label}
@@ -176,7 +188,8 @@ export default function App() {
                 style={{
                   width: i === current ? 24 : 6,
                   height: 6,
-                  background: i === current ? '#f59e0b' : 'rgba(255,255,255,0.2)',
+                  background:
+                    i === current ? "#f59e0b" : "rgba(255,255,255,0.2)",
                 }}
               />
             ))}
@@ -185,7 +198,6 @@ export default function App() {
 
         {/* Right: navigation arrows (desktop) + chapter info mobile */}
         <div className="flex-1 hidden md:flex flex-col items-start gap-6 pl-4">
-
           {/* Progress */}
           <div className="flex flex-col gap-2 w-full max-w-[180px]">
             {CHAPTERS.map((ch, i) => (
@@ -197,13 +209,21 @@ export default function App() {
                 <div
                   className="rounded-full flex-shrink-0 transition-all duration-300"
                   style={{
-                    width: 6, height: 6,
-                    background: i === current ? '#f59e0b' : i < current ? 'rgba(245,158,11,0.4)' : 'rgba(255,255,255,0.18)',
+                    width: 6,
+                    height: 6,
+                    background:
+                      i === current
+                        ? "#f59e0b"
+                        : i < current
+                          ? "rgba(245,158,11,0.4)"
+                          : "rgba(255,255,255,0.18)",
                   }}
                 />
                 <span
                   className="text-xs font-medium transition-colors duration-200"
-                  style={{ color: i === current ? '#f59e0b' : 'rgba(255,255,255,0.3)' }}
+                  style={{
+                    color: i === current ? "#f59e0b" : "rgba(255,255,255,0.3)",
+                  }}
                 >
                   {ch.label} — {ch.tag}
                 </span>
@@ -213,29 +233,49 @@ export default function App() {
 
           {/* Arrows */}
           <div className="flex gap-3">
-            <NavArrow dir="left" disabled={current === 0} onClick={() => goTo(current - 1)} />
-            <NavArrow dir="right" disabled={current === CHAPTERS.length - 1} onClick={() => goTo(current + 1)} />
+            <NavArrow
+              dir="left"
+              disabled={current === 0}
+              onClick={() => goTo(current - 1)}
+            />
+            <NavArrow
+              dir="right"
+              disabled={current === CHAPTERS.length - 1}
+              onClick={() => goTo(current + 1)}
+            />
           </div>
 
           {/* Hint */}
           <p className="text-white/20 text-xs leading-relaxed max-w-[180px]">
-            Usá las flechas o hacé clic en los puntos para navegar entre las secciones del tutorial.
+            Usá las flechas o hacé clic en los puntos para navegar entre las
+            secciones del tutorial.
           </p>
         </div>
       </div>
 
       {/* Mobile description */}
-      <div key={`mob-${animKey}`} className="animate-fade-up md:hidden mt-8 text-center max-w-xs z-10 relative">
-        <p className="text-white/35 text-xs font-semibold uppercase tracking-widest mb-1">{chapter.label}</p>
-        <h2 className="text-white text-xl font-bold mb-2" style={{ fontFamily: "'DM Serif Display', serif" }}>
+      <div
+        key={`mob-${animKey}`}
+        className="animate-fade-up md:hidden mt-8 text-center max-w-xs z-10 relative"
+      >
+        <p className="text-white/35 text-xs font-semibold uppercase tracking-widest mb-1">
+          {chapter.label}
+        </p>
+        <h2
+          className="text-white text-xl font-bold mb-2"
+          style={{ fontFamily: "'DM Serif Display', serif" }}
+        >
           {chapter.title}
         </h2>
-        <p className="text-white/45 text-sm leading-relaxed">{chapter.description}</p>
+        <p className="text-white/45 text-sm leading-relaxed">
+          {chapter.description}
+        </p>
       </div>
 
       {/* Bottom counter */}
       <div className="relative z-10 mt-10 text-white/20 text-xs tracking-widest">
-        {String(current + 1).padStart(2, '0')} / {String(CHAPTERS.length).padStart(2, '0')}
+        {String(current + 1).padStart(2, "0")} /{" "}
+        {String(CHAPTERS.length).padStart(2, "0")}
       </div>
     </div>
   )
@@ -246,11 +286,13 @@ function IntroScreen() {
   return (
     <div
       className="absolute inset-0 flex flex-col items-center justify-center px-6 animate-fade-up"
-      style={{ background: 'linear-gradient(160deg, #0f1520 0%, #07090f 100%)' }}
+      style={{
+        background: "linear-gradient(160deg, #0f1520 0%, #07090f 100%)",
+      }}
     >
       {/* Pulse rings */}
       <div className="relative flex items-center justify-center mb-8">
-        {[1, 2, 3].map(n => (
+        {[1, 2, 3].map((n) => (
           <div
             key={n}
             className="absolute rounded-full border border-amber-400/20"
@@ -276,7 +318,10 @@ function IntroScreen() {
 
       <div
         className="w-full rounded-2xl px-4 py-4 text-center mb-6"
-        style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}
+        style={{
+          background: "rgba(255,255,255,0.04)",
+          border: "1px solid rgba(255,255,255,0.06)",
+        }}
       >
         <p className="text-white/40 text-[11px] uppercase tracking-widest font-semibold mb-1">
           Sección que verás
@@ -285,7 +330,8 @@ function IntroScreen() {
       </div>
 
       <p className="text-white/35 text-xs text-center leading-relaxed">
-        Aprendé a licitar cuotas de tu fondo colectivo y elegir cómo aplicar el beneficio obtenido.
+        Aprendé a licitar cuotas de tu fondo colectivo y elegir cómo aplicar el
+        beneficio obtenido.
       </p>
 
       <div className="mt-8 flex items-center gap-2 text-white/25 text-[11px]">
@@ -298,37 +344,47 @@ function IntroScreen() {
 }
 
 /* ── Video screen ─────────────────────────────────────────────── */
-function VideoScreen({ videoRef }: { videoRef: React.RefObject<HTMLVideoElement | null> }) {
+function VideoScreen({
+  videoRef,
+}: {
+  videoRef: React.RefObject<HTMLVideoElement | null>
+}) {
+  const [hasError, setHasError] = useState(false)
+
   return (
     <div className="absolute inset-0 bg-black flex items-center justify-center">
       <video
         ref={videoRef}
         className="w-full h-full object-cover"
+        onError={() => setHasError(true)}
         playsInline
         preload="metadata"
         style={{ borderRadius: 44 }}
       >
-        {/* Reemplazá el src con la URL o ruta de tu video */}
-        <source src="YOUR_VIDEO_URL_HERE.mp4" type="video/mp4" />
+        <source src={remateVideo} type="video/quicktime" />
       </video>
 
-      {/* Placeholder overlay shown when no video src is loaded */}
-      <div
-        className="absolute inset-0 flex flex-col items-center justify-center"
-        style={{ background: 'rgba(7,9,15,0.9)', borderRadius: 44 }}
-      >
+      {hasError && (
         <div
-          className="w-14 h-14 rounded-full flex items-center justify-center mb-4"
-          style={{ background: 'rgba(245,158,11,0.12)', border: '1px solid rgba(245,158,11,0.3)' }}
+          className="absolute inset-0 flex flex-col items-center justify-center"
+          style={{ background: "rgba(7,9,15,0.9)", borderRadius: 44 }}
         >
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-            <path d="M6 4l12 6-12 6V4z" fill="#f59e0b" />
-          </svg>
+          <div
+            className="w-14 h-14 rounded-full flex items-center justify-center mb-4"
+            style={{
+              background: "rgba(245,158,11,0.12)",
+              border: "1px solid rgba(245,158,11,0.3)",
+            }}
+          >
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M6 4l12 6-12 6V4z" fill="#f59e0b" />
+            </svg>
+          </div>
+          <p className="text-white/50 text-xs text-center px-6 leading-relaxed">
+            No se pudo cargar el vídeo del tutorial.
+          </p>
         </div>
-        <p className="text-white/50 text-xs text-center px-6 leading-relaxed">
-          Colocá la ruta de tu video en el atributo <span className="text-amber-400 font-mono">src</span>
-        </p>
-      </div>
+      )}
     </div>
   )
 }
@@ -341,11 +397,12 @@ function AppIcon({ size = 64 }: { size?: number }) {
         width: size,
         height: size,
         borderRadius: size * 0.22,
-        background: 'linear-gradient(145deg, #1a2e4a 0%, #0f1c30 100%)',
-        boxShadow: '0 8px 32px rgba(245,158,11,0.2), inset 0 1px 0 rgba(255,255,255,0.1)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
+        background: "linear-gradient(145deg, #1a2e4a 0%, #0f1c30 100%)",
+        boxShadow:
+          "0 8px 32px rgba(245,158,11,0.2), inset 0 1px 0 rgba(255,255,255,0.1)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
         flexShrink: 0,
       }}
     >
@@ -356,9 +413,23 @@ function AppIcon({ size = 64 }: { size?: number }) {
         fill="none"
       >
         {/* M letter stylized */}
-        <path d="M4 28V8l8 12 6-9 6 9 8-12v20" stroke="#f59e0b" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+        <path
+          d="M4 28V8l8 12 6-9 6 9 8-12v20"
+          stroke="#f59e0b"
+          strokeWidth="2.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          fill="none"
+        />
         {/* Coin circle */}
-        <circle cx="18" cy="18" r="5" stroke="rgba(245,158,11,0.35)" strokeWidth="1.5" strokeDasharray="2 3" />
+        <circle
+          cx="18"
+          cy="18"
+          r="5"
+          stroke="rgba(245,158,11,0.35)"
+          strokeWidth="1.5"
+          strokeDasharray="2 3"
+        />
         <circle cx="18" cy="18" r="1.5" fill="#f59e0b" />
       </svg>
     </div>
@@ -366,7 +437,15 @@ function AppIcon({ size = 64 }: { size?: number }) {
 }
 
 /* ── Navigation arrow ─────────────────────────────────────────── */
-function NavArrow({ dir, disabled, onClick }: { dir: 'left' | 'right'; disabled: boolean; onClick: () => void }) {
+function NavArrow({
+  dir,
+  disabled,
+  onClick,
+}: {
+  dir: "left" | "right"
+  disabled: boolean
+  onClick: () => void
+}) {
   return (
     <button
       onClick={onClick}
@@ -375,17 +454,33 @@ function NavArrow({ dir, disabled, onClick }: { dir: 'left' | 'right'; disabled:
       style={{
         width: 44,
         height: 44,
-        background: disabled ? 'rgba(255,255,255,0.04)' : 'rgba(255,255,255,0.08)',
-        border: `1px solid ${disabled ? 'rgba(255,255,255,0.06)' : 'rgba(255,255,255,0.12)'}`,
-        cursor: disabled ? 'not-allowed' : 'pointer',
+        background: disabled
+          ? "rgba(255,255,255,0.04)"
+          : "rgba(255,255,255,0.08)",
+        border: `1px solid ${
+          disabled ? "rgba(255,255,255,0.06)" : "rgba(255,255,255,0.12)"
+        }`,
+        cursor: disabled ? "not-allowed" : "pointer",
         opacity: disabled ? 0.4 : 1,
       }}
     >
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-        {dir === 'left' ? (
-          <path d="M10 3L5 8l5 5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        {dir === "left" ? (
+          <path
+            d="M10 3L5 8l5 5"
+            stroke="white"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
         ) : (
-          <path d="M6 3l5 5-5 5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          <path
+            d="M6 3l5 5-5 5"
+            stroke="white"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
         )}
       </svg>
     </button>
@@ -398,9 +493,9 @@ function ChapterTag({ label }: { label: string }) {
     <div
       className="text-[10px] font-semibold tracking-widest uppercase px-3 py-1 rounded-full"
       style={{
-        background: 'rgba(245,158,11,0.1)',
-        color: '#f59e0b',
-        border: '1px solid rgba(245,158,11,0.2)',
+        background: "rgba(245,158,11,0.1)",
+        color: "#f59e0b",
+        border: "1px solid rgba(245,158,11,0.2)",
       }}
     >
       {label}
