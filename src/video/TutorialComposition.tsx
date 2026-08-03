@@ -89,8 +89,8 @@ function Arrow({ direction }: { direction: "left" | "right" }) {
   return (
     <div
       style={{
-        width: 44,
-        height: 44,
+        width: 48,
+        height: 48,
         borderRadius: "50%",
         background: "rgba(255,255,255,0.08)",
         border: "1px solid rgba(255,255,255,0.12)",
@@ -99,7 +99,7 @@ function Arrow({ direction }: { direction: "left" | "right" }) {
         justifyContent: "center",
       }}
     >
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+      <svg width="18" height="18" viewBox="0 0 16 16" fill="none">
         {direction === "left" ? (
           <path
             d="M10 3L5 8l5 5"
@@ -133,7 +133,7 @@ function IntroCard({ config }: { config: TutorialConfig }) {
     <AbsoluteFill
       style={{
         opacity,
-        padding: "0 24px",
+        padding: "0 28px",
         alignItems: "center",
         justifyContent: "center",
         display: "flex",
@@ -147,7 +147,7 @@ function IntroCard({ config }: { config: TutorialConfig }) {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          marginBottom: 32,
+          marginBottom: 38,
         }}
       >
         {[1, 2, 3].map((ring) => (
@@ -155,8 +155,8 @@ function IntroCard({ config }: { config: TutorialConfig }) {
             key={ring}
             style={{
               position: "absolute",
-              width: 72 + ring * 36,
-              height: 72 + ring * 36,
+              width: 86 + ring * 44,
+              height: 86 + ring * 44,
               borderRadius: "50%",
               border: `1px solid rgba(${theme.accentRgb},0.2)`,
               transform: `scale(${1 + Math.min(frame / 90, 0.55)})`,
@@ -164,16 +164,16 @@ function IntroCard({ config }: { config: TutorialConfig }) {
             }}
           />
         ))}
-        <AppIcon config={config} size={72} />
+        <AppIcon config={config} size={88} />
       </div>
 
       <div
         style={{
           color: "white",
           fontFamily: "DM Serif Display, serif",
-          fontSize: 26,
+          fontSize: 31,
           fontWeight: 700,
-          marginBottom: 8,
+          marginBottom: 10,
         }}
       >
         {brand.name}
@@ -181,11 +181,11 @@ function IntroCard({ config }: { config: TutorialConfig }) {
       <div
         style={{
           color: theme.accent,
-          fontSize: 11,
+          fontSize: 13,
           fontWeight: 600,
-          letterSpacing: 2,
+          letterSpacing: 2.4,
           textTransform: "uppercase",
-          marginBottom: 24,
+          marginBottom: 28,
         }}
       >
         {brand.eyebrow}
@@ -194,27 +194,27 @@ function IntroCard({ config }: { config: TutorialConfig }) {
       <div
         style={{
           width: "100%",
-          borderRadius: 16,
-          padding: "16px",
+          borderRadius: 20,
+          padding: "20px",
           textAlign: "center",
           background: "rgba(255,255,255,0.04)",
           border: "1px solid rgba(255,255,255,0.06)",
-          marginBottom: 24,
+          marginBottom: 28,
         }}
       >
         <div
           style={{
             color: "rgba(255,255,255,0.4)",
-            fontSize: 11,
+            fontSize: 13,
             fontWeight: 600,
             letterSpacing: 1.5,
             textTransform: "uppercase",
-            marginBottom: 4,
+            marginBottom: 5,
           }}
         >
           {intro.sectionLabel}
         </div>
-        <div style={{ color: "white", fontSize: 16, fontWeight: 600 }}>
+        <div style={{ color: "white", fontSize: 20, fontWeight: 600 }}>
           {intro.sectionName}
         </div>
       </div>
@@ -222,7 +222,7 @@ function IntroCard({ config }: { config: TutorialConfig }) {
       <div
         style={{
           color: "rgba(255,255,255,0.35)",
-          fontSize: 12,
+          fontSize: 14,
           lineHeight: 1.5,
           textAlign: "center",
         }}
@@ -234,18 +234,18 @@ function IntroCard({ config }: { config: TutorialConfig }) {
         style={{
           display: "flex",
           alignItems: "center",
-          gap: 8,
-          marginTop: 32,
+          gap: 9,
+          marginTop: 38,
           color: "rgba(255,255,255,0.25)",
-          fontSize: 11,
+          fontSize: 13,
         }}
       >
         <div
-          style={{ width: 16, height: 1, background: "rgba(255,255,255,0.2)" }}
+          style={{ width: 18, height: 1, background: "rgba(255,255,255,0.2)" }}
         />
         <span>{intro.navigationHint}</span>
         <div
-          style={{ width: 16, height: 1, background: "rgba(255,255,255,0.2)" }}
+          style={{ width: 18, height: 1, background: "rgba(255,255,255,0.2)" }}
         />
       </div>
     </AbsoluteFill>
@@ -301,17 +301,17 @@ function ChapterScene({
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          gap: 32,
+          gap: 40,
         }}
       >
         <div
           style={{
-            width: 260,
+            width: 310,
             display: "flex",
             flexDirection: "column",
             alignItems: "flex-end",
-            gap: 16,
-            paddingRight: 16,
+            gap: 20,
+            paddingRight: 20,
             textAlign: "right",
           }}
         >
@@ -321,10 +321,10 @@ function ChapterScene({
               border: `1px solid rgba(${accentRgb},0.2)`,
               borderRadius: 999,
               color: accent,
-              padding: "4px 12px",
-              fontSize: 10,
+              padding: "5px 14px",
+              fontSize: 12,
               fontWeight: 600,
-              letterSpacing: 1.5,
+              letterSpacing: 1.7,
               textTransform: "uppercase",
             }}
           >
@@ -334,11 +334,11 @@ function ChapterScene({
             <div
               style={{
                 color: "rgba(255,255,255,0.35)",
-                fontSize: 12,
+                fontSize: 14,
                 fontWeight: 600,
                 letterSpacing: 1.5,
                 textTransform: "uppercase",
-                marginBottom: 8,
+                marginBottom: 10,
               }}
             >
               {chapter.label}
@@ -347,10 +347,10 @@ function ChapterScene({
               style={{
                 color: "white",
                 fontFamily: "DM Serif Display, serif",
-                fontSize: 28,
+                fontSize: 34,
                 fontWeight: 700,
                 lineHeight: 1.15,
-                marginBottom: 12,
+                marginBottom: 15,
               }}
             >
               {chapter.title}
@@ -358,7 +358,7 @@ function ChapterScene({
             <div
               style={{
                 color: "rgba(255,255,255,0.5)",
-                fontSize: 14,
+                fontSize: 16,
                 lineHeight: 1.5,
               }}
             >
@@ -370,9 +370,9 @@ function ChapterScene({
         <div
           style={{
             position: "relative",
-            width: 300,
-            height: 620,
-            borderRadius: 44,
+            width: 360,
+            height: 744,
+            borderRadius: 52,
             background: phoneSurface,
             overflow: "hidden",
             flexShrink: 0,
@@ -386,10 +386,10 @@ function ChapterScene({
               top: 0,
               left: "50%",
               transform: "translateX(-50%)",
-              width: 100,
-              height: 28,
-              borderBottomLeftRadius: 14,
-              borderBottomRightRadius: 14,
+              width: 120,
+              height: 34,
+              borderBottomLeftRadius: 17,
+              borderBottomRightRadius: 17,
               background: phoneSurface,
               zIndex: 2,
             }}
@@ -397,11 +397,11 @@ function ChapterScene({
             <div
               style={{
                 position: "absolute",
-                bottom: 8,
+                bottom: 10,
                 left: "50%",
                 transform: "translateX(-50%)",
-                width: 56,
-                height: 4,
+                width: 68,
+                height: 6,
                 borderRadius: 999,
                 background: "rgba(255,255,255,0.1)",
               }}
@@ -417,7 +417,7 @@ function ChapterScene({
           <div
             style={{
               position: "absolute",
-              top: 40,
+              top: 48,
               left: 0,
               right: 0,
               display: "flex",
@@ -431,10 +431,10 @@ function ChapterScene({
                 border: `1px solid rgba(${accentRgb},0.25)`,
                 borderRadius: 999,
                 color: accent,
-                padding: "4px 12px",
-                fontSize: 10,
+                padding: "5px 14px",
+                fontSize: 12,
                 fontWeight: 600,
-                letterSpacing: 1.5,
+                letterSpacing: 1.7,
                 textTransform: "uppercase",
               }}
             >
@@ -445,11 +445,11 @@ function ChapterScene({
           <div
             style={{
               position: "absolute",
-              bottom: 12,
+              bottom: 14,
               left: "50%",
               transform: "translateX(-50%)",
-              width: 80,
-              height: 4,
+              width: 96,
+              height: 6,
               borderRadius: 999,
               background: "rgba(255,255,255,0.2)",
               zIndex: 3,
@@ -459,20 +459,20 @@ function ChapterScene({
 
         <div
           style={{
-            width: 260,
+            width: 310,
             display: "flex",
             flexDirection: "column",
             alignItems: "flex-start",
-            gap: 24,
-            paddingLeft: 16,
+            gap: 28,
+            paddingLeft: 20,
           }}
         >
           <div
             style={{
-              width: 180,
+              width: 216,
               display: "flex",
               flexDirection: "column",
-              gap: 8,
+              gap: 10,
             }}
           >
             {config.chapters.map((item, index) => (
@@ -481,17 +481,17 @@ function ChapterScene({
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  gap: 12,
+                  gap: 14,
                   color:
                     index === scene.index ? accent : "rgba(255,255,255,0.3)",
-                  fontSize: 12,
+                  fontSize: 14,
                   fontWeight: 500,
                 }}
               >
                 <div
                   style={{
-                    width: 6,
-                    height: 6,
+                    width: 8,
+                    height: 8,
                     borderRadius: "50%",
                     flexShrink: 0,
                     background:
@@ -509,16 +509,16 @@ function ChapterScene({
             ))}
           </div>
 
-          <div style={{ display: "flex", gap: 12 }}>
+          <div style={{ display: "flex", gap: 14 }}>
             <Arrow direction="left" />
             <Arrow direction="right" />
           </div>
 
           <div
             style={{
-              maxWidth: 180,
+              maxWidth: 216,
               color: "rgba(255,255,255,0.2)",
-              fontSize: 12,
+              fontSize: 14,
               lineHeight: 1.5,
             }}
           >
@@ -530,19 +530,19 @@ function ChapterScene({
       <div
         style={{
           position: "absolute",
-          top: 48,
+          top: 58,
           left: "50%",
           transform: "translateX(-50%)",
           display: "flex",
           alignItems: "center",
-          gap: 12,
+          gap: 14,
         }}
       >
-        <AppIcon config={config} size={32} />
+        <AppIcon config={config} size={38} />
         <div
           style={{
             color: "rgba(255,255,255,0.4)",
-            fontSize: 14,
+            fontSize: 16,
             fontWeight: 500,
             letterSpacing: 3,
             textTransform: "uppercase",
@@ -556,11 +556,11 @@ function ChapterScene({
       <div
         style={{
           position: "absolute",
-          bottom: 48,
+          bottom: 58,
           left: "50%",
           transform: "translateX(-50%)",
           color: "rgba(255,255,255,0.2)",
-          fontSize: 12,
+          fontSize: 14,
           letterSpacing: 3,
         }}
       >
