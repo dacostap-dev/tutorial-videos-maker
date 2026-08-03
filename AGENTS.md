@@ -4,7 +4,7 @@ React + Vite + Tailwind CSS project.
 
 ## Development Server
 
-Run `pnpm dev` to start the Vite development server.
+Run `npm run dev` to start the Vite development server.
 
 ## Project Structure
 
@@ -16,7 +16,7 @@ This is the canonical project structure. Start with task-relevant files below. O
 - `index.html` - Vite HTML shell containing the `#root` element and loading `src/main.tsx`
 - `package.json` - Project dependencies and the Vite build, development, preview, and formatting scripts
 - `vite.config.ts` - Vite configuration with React and Tailwind CSS v4
-- `.mise.toml` - Toolchain versions for Node.js and pnpm
+- `.mise.toml` - Toolchain version for Node.js
 
 ## Dependencies
 

@@ -1,5 +1,5 @@
-import { useState, useRef, useEffect } from "react"
-import remateVideo from "./remate.mov"
+import { useState, useRef, useEffect } from "react";
+import remateVideo from "./remate.mov";
 
 /* ── Chapter definitions ─────────────────────────────────────── */
 const CHAPTERS = [
@@ -39,32 +39,32 @@ const CHAPTERS = [
     timestamp: 55,
     tag: "Remate confirmado",
   },
-]
+];
 
 export default function App() {
-  const [current, setCurrent] = useState(0)
-  const [animKey, setAnimKey] = useState(0)
-  const videoRef = useRef<HTMLVideoElement>(null)
+  const [current, setCurrent] = useState(0);
+  const [animKey, setAnimKey] = useState(0);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
-  const chapter = CHAPTERS[current]
-  const isIntro = chapter.timestamp === null
+  const chapter = CHAPTERS[current];
+  const isIntro = chapter.timestamp === null;
 
   const goTo = (idx: number) => {
-    if (idx < 0 || idx >= CHAPTERS.length) return
-    setCurrent(idx)
-    setAnimKey((k) => k + 1)
-    const ts = CHAPTERS[idx].timestamp
+    if (idx < 0 || idx >= CHAPTERS.length) return;
+    setCurrent(idx);
+    setAnimKey((k) => k + 1);
+    const ts = CHAPTERS[idx].timestamp;
     if (ts !== null && videoRef.current) {
-      videoRef.current.currentTime = ts
-      videoRef.current.play().catch(() => {})
+      videoRef.current.currentTime = ts;
+      videoRef.current.play().catch(() => {});
     }
-  }
+  };
 
   useEffect(() => {
     if (!isIntro && videoRef.current) {
-      videoRef.current.pause()
+      videoRef.current.pause();
     }
-  }, [isIntro])
+  }, [isIntro]);
 
   return (
     <div className="grain relative min-h-screen bg-[#07090f] flex flex-col items-center justify-center overflow-hidden px-4 py-12">
@@ -278,7 +278,7 @@ export default function App() {
         {String(CHAPTERS.length).padStart(2, "0")}
       </div>
     </div>
-  )
+  );
 }
 
 /* ── Intro screen ─────────────────────────────────────────────── */
@@ -340,16 +340,16 @@ function IntroScreen() {
         <div className="w-4 h-px bg-white/20" />
       </div>
     </div>
-  )
+  );
 }
 
 /* ── Video screen ─────────────────────────────────────────────── */
 function VideoScreen({
   videoRef,
 }: {
-  videoRef: React.RefObject<HTMLVideoElement | null>
+  videoRef: React.RefObject<HTMLVideoElement | null>;
 }) {
-  const [hasError, setHasError] = useState(false)
+  const [hasError, setHasError] = useState(false);
 
   return (
     <div className="absolute inset-0 bg-black flex items-center justify-center">
@@ -386,7 +386,7 @@ function VideoScreen({
         </div>
       )}
     </div>
-  )
+  );
 }
 
 /* ── App icon SVG ─────────────────────────────────────────────── */
@@ -433,7 +433,7 @@ function AppIcon({ size = 64 }: { size?: number }) {
         <circle cx="18" cy="18" r="1.5" fill="#f59e0b" />
       </svg>
     </div>
-  )
+  );
 }
 
 /* ── Navigation arrow ─────────────────────────────────────────── */
@@ -442,9 +442,9 @@ function NavArrow({
   disabled,
   onClick,
 }: {
-  dir: "left" | "right"
-  disabled: boolean
-  onClick: () => void
+  dir: "left" | "right";
+  disabled: boolean;
+  onClick: () => void;
 }) {
   return (
     <button
@@ -484,7 +484,7 @@ function NavArrow({
         )}
       </svg>
     </button>
-  )
+  );
 }
 
 /* ── Chapter tag ──────────────────────────────────────────────── */
@@ -500,5 +500,5 @@ function ChapterTag({ label }: { label: string }) {
     >
       {label}
     </div>
-  )
+  );
 }
