@@ -76,5 +76,18 @@ export function getTotalDurationInFrames(config: TutorialConfig) {
 
   if (!lastScene) return 1
 
+  return (
+    lastScene.from +
+    lastScene.durationInFrames +
+    Math.round(config.output.outroDurationSeconds * config.output.fps)
+  )
+}
+
+export function getOutroFrom(config: TutorialConfig) {
+  const scenes = getRenderScenes(config)
+  const lastScene = scenes[scenes.length - 1]
+
+  if (!lastScene) return 0
+
   return lastScene.from + lastScene.durationInFrames
 }

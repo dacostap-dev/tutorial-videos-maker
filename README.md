@@ -19,6 +19,7 @@ Editá `src/config/tutorial.ts`. La configuración controla:
 - Textos de introducción y mensajes de navegación.
 - Asset de vídeo, tipo MIME, poster, autoplay y silencio.
 - Capítulos, descripciones, etiquetas, timestamps y duración de escenas.
+- Duración de la introducción, outro y cues de audio de la narración.
 - Colores de acento, fondo y teléfono.
 
 Para usar un logo personalizado, importá una imagen desde `src` y asignala a
@@ -44,14 +45,45 @@ El render utiliza el timeline de `src/config/tutorial.ts` y escribe
 `out/tutorial.mp4`. Guardá los vídeos fuente en `public/assets/` y referencialos
 con una ruta como `assets/remate.mp4`.
 
-Cada capítulo puede definir un guion de narración y un asset de audio
-previamente generado:
+### Sincronizar El Audio Con El Vídeo
+
+La sincronización es manual y usa una única línea de tiempo absoluta para el
+vídeo final. El render no pone pausas al vídeo, no modifica su velocidad y no
+analiza automáticamente qué aparece en pantalla. Cada capítulo muestra un
+segmento definido del vídeo fuente y cada audio comienza en el segundo indicado
+por su cue.
+
+Los valores principales son:
+
+- `audioCues[].startSeconds`: segundo del vídeo final en el que comienza la voz.
+  Incluye la introducción y el outro.
+- `chapters[].sourceStart`: segundo del vídeo fuente desde el que comienza un
+  capítulo.
+- `chapters[].sourceEnd`: segundo del vídeo fuente en el que termina un capítulo.
+- `chapters[].durationSeconds`: duración explícita del capítulo final cuando no
+  se quiere calcularla a partir de los timestamps fuente.
+- `output.introDurationSeconds`: duración de la introducción antes de mostrar el
+  primer segmento del vídeo fuente.
+
+Por ejemplo, si la voz se escucha antes de que aparezca la acción, aumentá
+`startSeconds`. Si se escucha tarde, reducí ese valor. Si la imagen muestra el
+segmento equivocado, ajustá `sourceStart`, `sourceEnd` o la duración del
+capítulo. Después de cada cambio, regenerá el MP4 y revisá nuevamente la
+sincronización.
+
+Cada cue de audio puede definir un guion de narración y un asset de audio
+previamente generado. `startSeconds` usa el tiempo absoluto del vídeo final,
+incluyendo la introducción:
 
 ```ts
-narration: {
-  text: "Primero seleccioná las cuotas...",
-  audioSrc: "audio/step-1.mp3",
-}
+audioCues: [
+  {
+    id: "select-installments",
+    startSeconds: 11,
+    text: "Escribe la cantidad de cuotas con las que deseas participar y pulsa Siguiente.",
+    audioSrc: "audio/select-installments.wav",
+  },
+]
 ```
 
 Los archivos referenciados por `audioSrc` deben estar en `public/audio/`. El
@@ -117,32 +149,43 @@ public/audio/step-2.wav
 public/audio/step-3.wav
 ```
 
-Después referenciá cada archivo en `src/config/tutorial.ts`:
+Para archivos M4A procesados, podés usar una subcarpeta como
+`public/audio/processed/` y referenciarla desde `audioSrc`.
+
+Después referenciá cada archivo en `src/config/tutorial.ts` dentro de
+`audioCues`:
 
 ```ts
-narration: {
-  text: "Primero seleccioná las cuotas...",
-  audioSrc: "audio/step-1.wav",
+{
+  id: "select-installments",
+  startSeconds: 11,
+  text: "Escribe la cantidad de cuotas con las que deseas participar y pulsa Siguiente.",
+  audioSrc: "audio/select-installments.wav",
 }
 ```
 
 ### Procesar El Audio
 
-Recortá los silencios largos al principio y al final de la voz. Después
-normalizá el archivo antes de renderizar:
+Para el flujo actual, recortá únicamente los primeros `1.5` segundos de cada
+grabación. No uses eliminación automática de silencios, normalización ni
+conversión a mono, porque pueden cambiar el inicio o el carácter de la voz.
+Por ejemplo:
 
 ```bash
-ffmpeg -i audio/raw/step-1.wav \
-  -af "loudnorm=I=-16:TP=-1.5:LRA=11" \
+ffmpeg -y -i public/audio/intro-question.m4a \
+  -af "atrim=start=1.5,asetpts=PTS-STARTPTS" \
+  -c:a aac \
+  -b:a 192k \
   -ar 48000 \
-  -ac 1 \
-  public/audio/step-1.wav
+  -ac 2 \
+  public/audio/processed/intro-question.m4a
 ```
 
-Se recomienda usar WAV durante la edición. MP3 también está soportado cuando
-se necesitan archivos más pequeños. Revisá la duración de cada audio contra
-el timeline de su capítulo; un audio más largo que la escena puede ser
-recortado durante el render.
+Si necesitás quitar solo un segundo, cambiá `start=1.5` por `start=1.0`. WAV,
+MP3 y M4A están soportados, pero los archivos M4A procesados se pueden guardar
+en `public/audio/processed/`. Revisá la duración de cada audio contra el
+siguiente cue y el final de su escena; un audio que se extienda fuera del
+timeline puede ser recortado durante el render.
 
 Como la voz es generada por un servicio de IA, revisá las condiciones de uso y
 los requisitos del producto antes de publicar el tutorial. Añadí una

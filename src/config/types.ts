@@ -7,10 +7,13 @@ export type Chapter = {
   sourceEnd?: number
   durationSeconds?: number
   tag: string
-  narration?: {
-    text: string
-    audioSrc?: string
-  }
+}
+
+export type AudioCue = {
+  id: string
+  startSeconds: number
+  text: string
+  audioSrc?: string
 }
 
 export type TutorialConfig = {
@@ -44,6 +47,7 @@ export type TutorialConfig = {
     height: number
     fps: number
     introDurationSeconds: number
+    outroDurationSeconds: number
   }
   timeline: {
     chapterGapSeconds: number
@@ -51,6 +55,11 @@ export type TutorialConfig = {
   messages: {
     videoError: string
   }
+  outro: {
+    title: string
+    description: string
+  }
+  audioCues: AudioCue[]
   chapters: Chapter[]
   theme: {
     accent: string

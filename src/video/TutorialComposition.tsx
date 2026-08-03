@@ -8,7 +8,12 @@ import {
   useCurrentFrame,
 } from "remotion"
 import type { TutorialConfig } from "../config/types"
-import { getRenderScenes, type RenderScene } from "./timeline"
+import {
+  getOutroFrom,
+  getRenderScenes,
+  getTotalDurationInFrames,
+  type RenderScene,
+} from "./timeline"
 
 type TutorialCompositionProps = {
   config: TutorialConfig
@@ -563,10 +568,6 @@ function ChapterScene({
         {String(config.chapters.length).padStart(2, "0")}
       </div>
 
-      {chapter.narration?.audioSrc ? (
-        <Audio src={mediaSource(chapter.narration.audioSrc)} />
-      ) : null}
-
       <div
         style={{
           position: "absolute",
@@ -579,10 +580,84 @@ function ChapterScene({
   )
 }
 
+function OutroScene({ config }: { config: TutorialConfig }) {
+  const frame = useCurrentFrame()
+  const opacity = interpolate(frame, [0, 15], [0, 1], {
+    extrapolateRight: "clamp",
+  })
+
+  return (
+    <AbsoluteFill
+      style={{
+        opacity,
+        alignItems: "center",
+        justifyContent: "center",
+        display: "flex",
+        flexDirection: "column",
+        background: `linear-gradient(160deg, ${config.theme.introStart} 0%, ${config.theme.introEnd} 100%)`,
+        color: "white",
+      }}
+    >
+      <AppIcon config={config} size={72} />
+      <div
+        style={{
+          marginTop: 24,
+          color: "white",
+          fontFamily: "DM Serif Display, serif",
+          fontSize: 30,
+          fontWeight: 700,
+        }}
+      >
+        {config.outro.title}
+      </div>
+      <div
+        style={{
+          maxWidth: 420,
+          marginTop: 12,
+          color: "rgba(255,255,255,0.55)",
+          fontSize: 16,
+          lineHeight: 1.5,
+          textAlign: "center",
+        }}
+      >
+        {config.outro.description}
+      </div>
+    </AbsoluteFill>
+  )
+}
+
+function AudioCueLayer({ config }: { config: TutorialConfig }) {
+  const totalDurationInFrames = getTotalDurationInFrames(config)
+
+  return (
+    <>
+      {config.audioCues.map((cue) => {
+        if (!cue.audioSrc) return null
+
+        const from = Math.round(cue.startSeconds * config.output.fps)
+
+        return (
+          <Sequence
+            key={cue.id}
+            from={from}
+            durationInFrames={Math.max(1, totalDurationInFrames - from)}
+          >
+            <Audio src={mediaSource(cue.audioSrc)} />
+          </Sequence>
+        )
+      })}
+    </>
+  )
+}
+
 export default function TutorialComposition({
   config,
 }: TutorialCompositionProps) {
   const scenes = getRenderScenes(config)
+  const outroFrom = getOutroFrom(config)
+  const outroDurationInFrames = Math.round(
+    config.output.outroDurationSeconds * config.output.fps,
+  )
 
   return (
     <AbsoluteFill style={{ background: config.theme.background }}>
@@ -595,6 +670,10 @@ export default function TutorialComposition({
           <ChapterScene config={config} scene={scene} />
         </Sequence>
       ))}
+      <Sequence from={outroFrom} durationInFrames={outroDurationInFrames}>
+        <OutroScene config={config} />
+      </Sequence>
+      <AudioCueLayer config={config} />
     </AbsoluteFill>
   )
 }
