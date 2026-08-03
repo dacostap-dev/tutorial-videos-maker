@@ -1,42 +1,49 @@
 # tutorial-videos-maker
 
-React + Vite + Tailwind CSS project.
+Proyecto React + Vite + Tailwind CSS.
 
-## Development Server
+## Servidor De Desarrollo
 
-Run `npm run dev` to start the Vite development server.
+Ejecutá `npm run dev` para iniciar el servidor de desarrollo de Vite.
 
-## Project Structure
+## Estructura Del Proyecto
 
-This is the canonical project structure. Start with task-relevant files below. Only follow imports or inspect other files when required, when a documented path is missing, or when the repository contradicts this guide.
+Esta es la estructura principal del proyecto. Empezá por los archivos
+relacionados con la tarea y seguí los imports solo cuando sea necesario.
 
-- `src/main.tsx` - React entrypoint; imports `src/index.css` and mounts `src/App.tsx` into the `#root` element
-- `src/App.tsx` - Primary application component and the usual starting point for UI work
-- `src/config/tutorial.ts` - Developer-editable branding, content, video, metadata, and theme configuration
-- `src/components/` - Reusable presentation components for the tutorial player
-- `src/video/` - Remotion composition, timeline, and render entrypoint
-- `public/assets/` - Static video and image assets used by the preview and renderer
-- `src/index.css` - Global CSS entrypoint and Tailwind CSS v4 import
-- `index.html` - Vite HTML shell containing the `#root` element and loading `src/main.tsx`
-- `package.json` - Project dependencies and the Vite build, development, preview, and formatting scripts
-- `vite.config.ts` - Vite configuration with React and Tailwind CSS v4
-- `.mise.toml` - Toolchain version for Node.js
+- `src/main.tsx` - Entrada de React; importa `src/index.css` y monta `src/App.tsx` en `#root`.
+- `src/App.tsx` - Componente principal de la previsualización interactiva.
+- `src/config/tutorial.ts` - Configuración editable de marca, contenido, vídeo, metadata y tema.
+- `src/components/` - Componentes visuales reutilizables del reproductor tutorial.
+- `src/video/` - Composición Remotion, timeline y entrada del renderizador.
+- `public/assets/` - Vídeos e imágenes estáticas utilizadas por la previsualización y el renderizador.
+- `src/index.css` - Entrada global de CSS e importación de Tailwind CSS v4.
+- `index.html` - Shell HTML de Vite que contiene `#root` y carga `src/main.tsx`.
+- `package.json` - Dependencias y scripts de desarrollo, build, render y formato.
+- `vite.config.ts` - Configuración de Vite con React y Tailwind CSS v4.
+- `.mise.toml` - Versión de Node.js del proyecto.
 
-## Dependencies
+## Dependencias
 
-- Runtime: React 19 and React DOM 19
-- Styling: Tailwind CSS v4 with the `@tailwindcss/vite` plugin
-- Build tooling: Vite 8, Remotion, TypeScript 5.7, and `@vitejs/plugin-react`
-- Formatting: oxfmt
+- Runtime: React 19 y React DOM 19.
+- Estilos: Tailwind CSS v4 mediante `@tailwindcss/vite`.
+- Build y vídeo: Vite 8, Remotion, TypeScript 5.7 y `@vitejs/plugin-react`.
+- Formato: oxfmt.
 
-## Styling
+## Estilos
 
-This project uses **Tailwind CSS v4** through the `@tailwindcss/vite` plugin configured in `vite.config.ts`. `src/index.css` imports Tailwind with `@import 'tailwindcss';`. Use Tailwind utility classes directly in JSX and put global CSS or Tailwind v4 theme customization in `src/index.css`. This scaffold does not need a Tailwind config file or PostCSS config.
+El proyecto utiliza **Tailwind CSS v4** mediante el plugin `@tailwindcss/vite`
+configurado en `vite.config.ts`. `src/index.css` importa Tailwind con
+`@import 'tailwindcss';`. Usá las utilidades de Tailwind directamente en JSX
+y colocá el CSS global o la personalización del tema de Tailwind v4 en
+`src/index.css`.
 
-`src/main.tsx` imports `src/index.css`, so global font wiring belongs in `src/index.css`. Keep CSS `@import` statements first, then add any `@font-face` rules and font-family defaults there.
+`src/main.tsx` importa `src/index.css`, por lo que la configuración global de
+fuentes pertenece a `src/index.css`. Las declaraciones `@import` de CSS deben
+permanecer al principio del archivo.
 
-## Code quality
+## Calidad Del Código
 
-- Use double quotes for strings containing apostrophes (`"We're here to help"`), or escape them in single-quoted strings. An unescaped apostrophe in a single-quoted string breaks the build.
-- Ensure JSX tags are closed and braces are balanced.
-- Export components as default exports.
+- Usá comillas dobles en strings que contengan apóstrofes (`"We're here to help"`) o escapá el apóstrofe si usás comillas simples.
+- Verificá que las etiquetas JSX estén cerradas y que las llaves estén balanceadas.
+- Exportá los componentes como exports default.
