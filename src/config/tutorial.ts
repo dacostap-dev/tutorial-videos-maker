@@ -1,4 +1,3 @@
-import remateVideo from "../remate.mp4"
 import type { TutorialConfig } from "./types"
 
 export const tutorialConfig = {
@@ -26,10 +25,22 @@ export const tutorialConfig = {
   },
 
   video: {
-    src: remateVideo,
+    src: "assets/remate.mp4",
     type: "video/mp4",
+    durationSeconds: 56.381,
     autoPlay: true,
     muted: true,
+  },
+
+  output: {
+    width: 1080,
+    height: 1920,
+    fps: 30,
+    introDurationSeconds: 3,
+  },
+
+  timeline: {
+    chapterGapSeconds: 0,
   },
 
   messages: {
@@ -43,8 +54,12 @@ export const tutorialConfig = {
       title: "Sección Remate",
       description:
         "Conocé cómo funciona el Remate dentro de Maquinet. Una herramienta que te permite licitar cuotas de tu fondo colectivo y obtener beneficios anticipados.",
-      timestamp: null,
+      sourceStart: null,
       tag: "Descripción general",
+      durationSeconds: 3,
+      narration: {
+        text: "Conocé cómo funciona el Remate dentro de Maquinet.",
+      },
     },
     {
       id: "step-1",
@@ -52,8 +67,12 @@ export const tutorialConfig = {
       title: "Seleccioná tus cuotas",
       description:
         "Elegí las cuotas con las que querés participar del remate. Podés seleccionar una o varias cuotas disponibles en tu fondo.",
-      timestamp: 0,
+      sourceStart: 0,
+      sourceEnd: 30,
       tag: "Selección de cuotas",
+      narration: {
+        text: "Primero seleccioná las cuotas con las que querés participar del remate.",
+      },
     },
     {
       id: "step-2",
@@ -61,8 +80,12 @@ export const tutorialConfig = {
       title: "Aplicá el beneficio",
       description:
         "Decidí si preferís reducir el monto de cada cuota mensual o acortar el plazo total de tu plan de ahorro.",
-      timestamp: 30,
+      sourceStart: 30,
+      sourceEnd: 55,
       tag: "Reducir cuotas · Reducir plazo",
+      narration: {
+        text: "Después decidí si querés reducir el monto de cada cuota o acortar el plazo.",
+      },
     },
     {
       id: "step-3",
@@ -70,8 +93,12 @@ export const tutorialConfig = {
       title: "Confirmación",
       description:
         "El remate queda registrado y el beneficio se aplica en el próximo período de liquidación de tu fondo.",
-      timestamp: 55,
+      sourceStart: 55,
+      sourceEnd: 56.381,
       tag: "Remate confirmado",
+      narration: {
+        text: "Finalmente, el remate queda registrado y el beneficio se aplica en el próximo período.",
+      },
     },
   ],
 

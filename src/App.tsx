@@ -1,78 +1,75 @@
-import { useEffect, useRef, useState, type CSSProperties } from "react";
-import { tutorialConfig as config } from "./config/tutorial";
-import BrandHeader from "./components/BrandHeader";
-import ChapterTag from "./components/ChapterTag";
-import IntroScreen from "./components/IntroScreen";
-import NavigationArrow from "./components/NavigationArrow";
-import VideoScreen from "./components/VideoScreen";
+import { useEffect, useRef, useState, type CSSProperties } from "react"
+import { tutorialConfig as config } from "./config/tutorial"
+import BrandHeader from "./components/BrandHeader"
+import ChapterTag from "./components/ChapterTag"
+import IntroScreen from "./components/IntroScreen"
+import NavigationArrow from "./components/NavigationArrow"
+import VideoScreen from "./components/VideoScreen"
 
 export default function App() {
-  const [current, setCurrent] = useState(0);
-  const [animKey, setAnimKey] = useState(0);
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const chapter = config.chapters[current];
-  const isIntro = chapter.timestamp === null;
+  const [current, setCurrent] = useState(0)
+  const [animKey, setAnimKey] = useState(0)
+  const videoRef = useRef<HTMLVideoElement>(null)
+  const chapter = config.chapters[current]
+  const isIntro = chapter.sourceStart === null
 
   const themeStyle = {
     "--app-background": config.theme.background,
     "--app-accent-rgb": config.theme.accentRgb,
-  } as CSSProperties;
+  } as CSSProperties
 
   const goTo = (idx: number) => {
-    if (idx < 0 || idx >= config.chapters.length) return;
-    setCurrent(idx);
-    setAnimKey((key) => key + 1);
-  };
+    if (idx < 0 || idx >= config.chapters.length) return
+    setCurrent(idx)
+    setAnimKey((key) => key + 1)
+  }
 
   useEffect(() => {
-    document.title = config.metadata.title;
-    document.documentElement.lang = config.metadata.language;
+    document.title = config.metadata.title
+    document.documentElement.lang = config.metadata.language
 
     const setMeta = (name: string, content?: string) => {
       let element = document.querySelector<HTMLMetaElement>(
         `meta[name="${name}"]`,
-      );
+      )
 
       if (!content) {
-        element?.remove();
-        return;
+        element?.remove()
+        return
       }
 
       if (!element) {
-        element = document.createElement("meta");
-        element.name = name;
-        document.head.appendChild(element);
+        element = document.createElement("meta")
+        element.name = name
+        document.head.appendChild(element)
       }
 
-      element.content = content;
-    };
-
-    setMeta("description", config.metadata.description);
-    setMeta(
-      "robots",
-      config.metadata.noIndex ? "noindex, nofollow" : undefined,
-    );
-  }, []);
-
-  useEffect(() => {
-    const video = videoRef.current;
-    const timestamp = chapter.timestamp;
-
-    if (!video || timestamp === null) return;
-
-    const playChapter = () => {
-      video.currentTime = timestamp;
-      void video.play().catch(() => {});
-    };
-
-    if (video.readyState >= HTMLMediaElement.HAVE_METADATA) {
-      playChapter();
-      return;
+      element.content = content
     }
 
-    video.addEventListener("loadedmetadata", playChapter, { once: true });
-    return () => video.removeEventListener("loadedmetadata", playChapter);
-  }, [chapter.timestamp, current]);
+    setMeta("description", config.metadata.description)
+    setMeta("robots", config.metadata.noIndex ? "noindex, nofollow" : undefined)
+  }, [])
+
+  useEffect(() => {
+    const video = videoRef.current
+    const timestamp = chapter.sourceStart
+
+    if (!video || timestamp === null) return
+
+    const playChapter = () => {
+      video.currentTime = timestamp
+      void video.play().catch(() => {})
+    }
+
+    if (video.readyState >= HTMLMediaElement.HAVE_METADATA) {
+      playChapter()
+      return
+    }
+
+    video.addEventListener("loadedmetadata", playChapter, { once: true })
+    return () => video.removeEventListener("loadedmetadata", playChapter)
+  }, [chapter.sourceStart, current])
 
   return (
     <div
@@ -307,5 +304,5 @@ export default function App() {
         {String(config.chapters.length).padStart(2, "0")}
       </div>
     </div>
-  );
+  )
 }

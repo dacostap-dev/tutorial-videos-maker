@@ -3,8 +3,14 @@ export type Chapter = {
   label: string
   title: string
   description: string
-  timestamp: number | null
+  sourceStart: number | null
+  sourceEnd?: number
+  durationSeconds?: number
   tag: string
+  narration?: {
+    text: string
+    audioSrc?: string
+  }
 }
 
 export type TutorialConfig = {
@@ -28,9 +34,19 @@ export type TutorialConfig = {
   video: {
     src: string
     type: string
+    durationSeconds: number
     autoPlay?: boolean
     muted?: boolean
     poster?: string
+  }
+  output: {
+    width: number
+    height: number
+    fps: number
+    introDurationSeconds: number
+  }
+  timeline: {
+    chapterGapSeconds: number
   }
   messages: {
     videoError: string

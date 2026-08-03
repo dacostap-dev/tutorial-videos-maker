@@ -14,6 +14,8 @@ This is the canonical project structure. Start with task-relevant files below. O
 - `src/App.tsx` - Primary application component and the usual starting point for UI work
 - `src/config/tutorial.ts` - Developer-editable branding, content, video, metadata, and theme configuration
 - `src/components/` - Reusable presentation components for the tutorial player
+- `src/video/` - Remotion composition, timeline, and render entrypoint
+- `public/assets/` - Static video and image assets used by the preview and renderer
 - `src/index.css` - Global CSS entrypoint and Tailwind CSS v4 import
 - `index.html` - Vite HTML shell containing the `#root` element and loading `src/main.tsx`
 - `package.json` - Project dependencies and the Vite build, development, preview, and formatting scripts
@@ -24,7 +26,7 @@ This is the canonical project structure. Start with task-relevant files below. O
 
 - Runtime: React 19 and React DOM 19
 - Styling: Tailwind CSS v4 with the `@tailwindcss/vite` plugin
-- Build tooling: Vite 8, TypeScript 5.7, and `@vitejs/plugin-react`
+- Build tooling: Vite 8, Remotion, TypeScript 5.7, and `@vitejs/plugin-react`
 - Formatting: oxfmt
 
 ## Styling

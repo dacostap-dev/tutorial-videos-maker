@@ -35,7 +35,10 @@ export default function VideoScreen({
         preload="auto"
         style={{ borderRadius: 44 }}
       >
-        <source src={video.src} type={video.type} />
+        <source
+          src={video.src.startsWith("/") ? video.src : `/${video.src}`}
+          type={video.type}
+        />
       </video>
 
       {hasError && (

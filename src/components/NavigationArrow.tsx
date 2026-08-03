@@ -1,9 +1,9 @@
 type NavigationArrowProps = {
-  direction: "left" | "right";
-  disabled: boolean;
-  label: string;
-  onClick: () => void;
-};
+  direction: "left" | "right"
+  disabled: boolean
+  label: string
+  onClick: () => void
+}
 
 export default function NavigationArrow({
   direction,
@@ -57,5 +57,5 @@ export default function NavigationArrow({
         )}
       </svg>
     </button>
-  );
+  )
 }
