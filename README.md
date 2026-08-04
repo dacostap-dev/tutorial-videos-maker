@@ -10,6 +10,10 @@ npm install
 npm run dev
 ```
 
+`npm run dev` abre el tutorial interactivo para usuarios. Esta web permite
+avanzar entre capítulos con botones y está pensada como una experiencia
+dinámica, no como una reproducción exacta del MP4 final.
+
 ## Personalizar Un Tutorial
 
 Edita `src/config/tutorial.ts`. La configuración controla:
@@ -82,17 +86,28 @@ fotos usan crossfade; no se agrega zoom automático para mantener legibles los
 textos de las capturas. La previsualización web también cambia al visor de
 fotos cuando `mode` es `"photos"`.
 
-## Renderizar Un Vídeo
+## Preview Y Renderizar Un Vídeo
 
-El sitio interactivo funciona como previsualización. Remotion renderiza el
-mismo lenguaje visual como un MP4 fijo Full HD horizontal de `1920x1080`. El
-video de la aplicación se mantiene dentro de un teléfono vertical para no
+Remotion genera el vídeo final como un MP4 fijo Full HD horizontal de `1920x1080`.
+El vídeo de la aplicación se mantiene dentro de un teléfono vertical para no
 deformar la grabación fuente.
 
 ```bash
+# Preview interno de la composición que se va a renderizar
 npm run video:studio
+
+# Generar el MP4 final
 npm run video:render
 ```
+
+Usa `npm run video:studio` para revisar la misma composición de Remotion que
+usa el render: timeline, intro, outro, audio y `videoHolds`. Usa `npm run dev`
+para revisar la experiencia interactiva de la web. Ambas interfaces comparten
+la configuración y el contenido, pero tienen objetivos distintos:
+
+- `npm run dev`: tutorial dinámico para usuarios.
+- `npm run video:studio`: preview interno para desarrolladores.
+- `npm run video:render`: render final en `out/tutorial.mp4`.
 
 El render utiliza el timeline de `src/config/tutorial.ts` y escribe
 `out/tutorial.mp4`. Guarda los vídeos fuente en `public/assets/` y refiérelos
@@ -100,17 +115,17 @@ con una ruta como `assets/remate.mp4`.
 
 ### Sincronizar El Audio Con El Vídeo
 
-La sincronización es manual y usa una única línea de tiempo absoluta para el
-vídeo final. Por defecto el render no pone pausas ni modifica la velocidad del
-vídeo, y no analiza automáticamente qué aparece en pantalla. Si se configura un
-`videoHold`, se congela un frame sin detener el audio. Cada capítulo muestra un
-segmento definido del vídeo fuente y cada audio comienza en el segundo indicado
-por su cue.
+La sincronización es manual. Por defecto el render no pone pausas ni modifica la
+velocidad del vídeo, y no analiza automáticamente qué aparece en pantalla. Si se
+configura un `videoHold`, se congela un frame sin detener el audio.
 
 Los valores principales son:
 
-- `audioCues[].startSeconds`: segundo del vídeo final en el que comienza la voz.
-  Incluye la introducción y el outro.
+- `audioCues[].timebase`: puede ser `"render"` o `"source"`.
+- `audioCues[].startSeconds`: segundo de la línea de tiempo indicada por
+  `timebase`. Con `"render"` es un segundo absoluto del vídeo final. Con
+  `"source"` es un segundo del vídeo fuente y se desplaza automáticamente por
+  la introducción y los holds anteriores.
 - `chapters[].sourceStart`: segundo del vídeo fuente desde el que comienza un
   capítulo.
 - `chapters[].sourceEnd`: segundo del vídeo fuente en el que termina un capítulo.
@@ -133,12 +148,17 @@ incluyendo la introducción:
 audioCues: [
   {
     id: "select-installments",
+    timebase: "render",
     startSeconds: 11,
     text: "Escribe la cantidad de cuotas con las que deseas participar y pulsa Siguiente.",
     audioSrc: "audio/select-installments.wav",
   },
 ]
 ```
+
+Para un audio que deba seguir una acción del vídeo fuente, usa `timebase:
+"source"`. Por ejemplo, un cue en el segundo `36` del vídeo fuente se colocará
+después de los holds anteriores. No sumes manualmente la duración de los holds.
 
 Los archivos referenciados por `audioSrc` deben estar en `public/audio/`. El
 pipeline actual soporta esos archivos, pero no llama directamente a un
@@ -156,14 +176,14 @@ videoHolds: [
   {
     sourceAtSeconds: 29,
     durationSeconds: 3,
-    frameSrc: "assets/remate-hold-29.jpg",
   },
 ]
 ```
 
 `sourceAtSeconds` usa el tiempo del vídeo fuente, no el tiempo final del render.
 El hold desplaza automáticamente los capítulos y los cues de audio posteriores.
-Genera el frame congelado desde el vídeo fuente y guárdalo en `public/assets/`.
+El render usa directamente ese frame del vídeo fuente, por lo que no necesitas
+generar un JPG adicional.
 
 ## Grabar La Voz De ChatGPT
 

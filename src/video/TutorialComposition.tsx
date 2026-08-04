@@ -1,11 +1,14 @@
+import { useEffect, useRef, type CSSProperties } from "react"
 import {
   AbsoluteFill,
   Audio,
+  Loop,
   OffthreadVideo,
   Sequence,
   interpolate,
   staticFile,
   useCurrentFrame,
+  useRemotionEnvironment,
 } from "remotion"
 import type { TutorialConfig } from "../config/types"
 import {
@@ -272,7 +275,7 @@ type VideoSegment = {
   type: "hold"
   from: number
   durationInFrames: number
-  frameSrc: string
+  sourceFrame: number
 }
 
 function getVideoSegments(config: TutorialConfig): VideoSegment[] {
@@ -312,7 +315,7 @@ function getVideoSegments(config: TutorialConfig): VideoSegment[] {
       type: "hold",
       from: outputCursor,
       durationInFrames: holdDurationInFrames,
-      frameSrc: hold.frameSrc,
+      sourceFrame: sourceAtFrame,
     })
     outputCursor += holdDurationInFrames
     sourceCursor = sourceAtFrame
@@ -329,6 +332,93 @@ function getVideoSegments(config: TutorialConfig): VideoSegment[] {
   }
 
   return segments
+}
+
+function PreviewVideoHold({
+  src,
+  sourceFrame,
+  fps,
+  muted,
+  style,
+}: {
+  src: string
+  sourceFrame: number
+  fps: number
+  muted?: boolean
+  style: CSSProperties
+}) {
+  const videoRef = useRef<HTMLVideoElement>(null)
+  const sourceTimeSeconds = sourceFrame / fps
+
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video) return
+
+    const seekToSourceFrame = () => {
+      video.pause()
+      video.currentTime = sourceTimeSeconds
+    }
+    const keepPaused = () => video.pause()
+
+    video.addEventListener("loadedmetadata", seekToSourceFrame)
+    video.addEventListener("seeked", keepPaused)
+
+    if (video.readyState >= HTMLMediaElement.HAVE_METADATA) {
+      seekToSourceFrame()
+    }
+
+    return () => {
+      video.removeEventListener("loadedmetadata", seekToSourceFrame)
+      video.removeEventListener("seeked", keepPaused)
+    }
+  }, [sourceTimeSeconds])
+
+  return (
+    <video
+      ref={videoRef}
+      src={src}
+      muted={muted}
+      playsInline
+      preload="auto"
+      style={style}
+    />
+  )
+}
+
+function VideoHoldLayer({
+  config,
+  segment,
+}: {
+  config: TutorialConfig
+  segment: Extract<VideoSegment, { type: "hold" }>
+}) {
+  const environment = useRemotionEnvironment()
+  const style = { width: "100%", height: "100%", objectFit: "cover" } as const
+  const src = mediaSource(config.video.src)
+
+  if (!environment.isRendering) {
+    return (
+      <PreviewVideoHold
+        src={src}
+        sourceFrame={segment.sourceFrame}
+        fps={config.output.fps}
+        muted={config.video.muted}
+        style={style}
+      />
+    )
+  }
+
+  return (
+    <Loop durationInFrames={1}>
+      <OffthreadVideo
+        src={src}
+        trimBefore={segment.sourceFrame}
+        trimAfter={segment.sourceFrame + 1}
+        muted={config.video.muted}
+        style={style}
+      />
+    </Loop>
+  )
 }
 
 function ContinuousVideoPhone({ config }: { config: TutorialConfig }) {
@@ -357,11 +447,7 @@ function ContinuousVideoPhone({ config }: { config: TutorialConfig }) {
           durationInFrames={segment.durationInFrames}
         >
           {segment.type === "hold" ? (
-            <img
-              src={mediaSource(segment.frameSrc)}
-              alt=""
-              style={{ width: "100%", height: "100%", objectFit: "cover" }}
-            />
+            <VideoHoldLayer config={config} segment={segment} />
           ) : (
             <OffthreadVideo
               src={mediaSource(config.video.src)}
@@ -894,7 +980,8 @@ function AudioCueLayer({ config }: { config: TutorialConfig }) {
         if (!cue.audioSrc) return null
 
         const from = Math.round(
-          getAudioCueStartSeconds(config, cue.startSeconds) * config.output.fps,
+          getAudioCueStartSeconds(config, cue.startSeconds, cue.timebase) *
+            config.output.fps,
         )
 
         return (

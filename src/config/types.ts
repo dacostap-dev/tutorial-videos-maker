@@ -1,4 +1,5 @@
 export type TutorialMode = "video" | "photos"
+export type AudioTimebase = "render" | "source"
 
 export type PhotoSlide = {
   src: string
@@ -10,7 +11,6 @@ export type PhotoSlide = {
 export type VideoHold = {
   sourceAtSeconds: number
   durationSeconds: number
-  frameSrc: string
 }
 
 export type Chapter = {
@@ -27,6 +27,7 @@ export type Chapter = {
 
 export type AudioCue = {
   id: string
+  timebase: AudioTimebase
   startSeconds: number
   text: string
   audioSrc?: string

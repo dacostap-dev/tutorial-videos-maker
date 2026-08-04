@@ -1,4 +1,9 @@
-import type { Chapter, PhotoSlide, TutorialConfig } from "../config/types"
+import type {
+  AudioTimebase,
+  Chapter,
+  PhotoSlide,
+  TutorialConfig,
+} from "../config/types"
 
 export type RenderScene = {
   chapter: Chapter
@@ -87,21 +92,14 @@ export function getVideoPlaybackDurationInFrames(config: TutorialConfig) {
 export function getAudioCueStartSeconds(
   config: TutorialConfig,
   startSeconds: number,
+  timebase: AudioTimebase,
 ) {
-  if (config.mode !== "video") return startSeconds
+  if (config.mode !== "video" || timebase === "render") return startSeconds
 
   return (
+    config.output.introDurationSeconds +
     startSeconds +
-    getVideoHolds(config).reduce((total, hold) => {
-      const originalOutputTime =
-        config.output.introDurationSeconds +
-        hold.sourceAtSeconds +
-        getVideoHoldDurationBeforeSource(config, hold.sourceAtSeconds)
-
-      return (
-        total + (startSeconds > originalOutputTime ? hold.durationSeconds : 0)
-      )
-    }, 0)
+    getVideoHoldDurationBeforeSource(config, startSeconds)
   )
 }
 
