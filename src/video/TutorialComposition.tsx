@@ -24,6 +24,12 @@ const mediaSource = (src: string) => {
   return staticFile(src.replace(/^\/+/, ""))
 }
 
+const phoneFrame = {
+  width: 360,
+  height: 744,
+  borderRadius: 52,
+} as const
+
 type AppIconProps = {
   config: TutorialConfig
   size: number
@@ -252,28 +258,75 @@ function IntroCard({ config }: { config: TutorialConfig }) {
   )
 }
 
-function VideoCard({
-  config,
-  scene,
-}: {
-  config: TutorialConfig
-  scene: RenderScene
-}) {
-  const sourceStartFrame = scene.sourceStartFrame ?? 0
-  const sourceEndFrame =
-    scene.sourceEndFrame ??
-    Math.round(config.video.durationSeconds * config.output.fps)
+function ContinuousVideoPhone({ config }: { config: TutorialConfig }) {
+  const sourceDurationInFrames = Math.round(
+    config.video.durationSeconds * config.output.fps,
+  )
 
   return (
-    <AbsoluteFill style={{ background: "black", overflow: "hidden" }}>
+    <div
+      style={{
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+        width: phoneFrame.width,
+        height: phoneFrame.height,
+        transform: "translate(-50%, -50%)",
+        borderRadius: phoneFrame.borderRadius,
+        background: config.theme.phoneSurface,
+        overflow: "hidden",
+        boxShadow:
+          "0 0 0 1px rgba(255,255,255,0.06), 0 40px 100px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.08)",
+      }}
+    >
       <OffthreadVideo
         src={mediaSource(config.video.src)}
-        trimBefore={sourceStartFrame}
-        trimAfter={sourceEndFrame}
+        trimBefore={0}
+        trimAfter={sourceDurationInFrames}
         muted={config.video.muted}
         style={{ width: "100%", height: "100%", objectFit: "cover" }}
       />
-    </AbsoluteFill>
+      <div
+        style={{
+          position: "absolute",
+          top: 0,
+          left: "50%",
+          transform: "translateX(-50%)",
+          width: 120,
+          height: 34,
+          borderBottomLeftRadius: 17,
+          borderBottomRightRadius: 17,
+          background: config.theme.phoneSurface,
+          zIndex: 2,
+        }}
+      >
+        <div
+          style={{
+            position: "absolute",
+            bottom: 10,
+            left: "50%",
+            transform: "translateX(-50%)",
+            width: 68,
+            height: 6,
+            borderRadius: 999,
+            background: "rgba(255,255,255,0.1)",
+          }}
+        />
+      </div>
+      <div
+        style={{
+          position: "absolute",
+          bottom: 14,
+          left: "50%",
+          transform: "translateX(-50%)",
+          width: 96,
+          height: 6,
+          borderRadius: 999,
+          background: "rgba(255,255,255,0.2)",
+          zIndex: 2,
+        }}
+      />
+    </div>
   )
 }
 
@@ -285,12 +338,14 @@ function ChapterScene({
   scene: RenderScene
 }) {
   const frame = useCurrentFrame()
-  const opacity = interpolate(frame, [0, 15], [0, 1], {
-    extrapolateRight: "clamp",
-  })
   const { chapter } = scene
   const { accent, accentRgb, phoneSurface } = config.theme
   const isIntro = chapter.sourceStart === null
+  const opacity = isIntro
+    ? interpolate(frame, [0, 15], [0, 1], {
+        extrapolateRight: "clamp",
+      })
+    : 1
 
   return (
     <AbsoluteFill style={{ opacity, color: "white" }}>
@@ -370,14 +425,15 @@ function ChapterScene({
         <div
           style={{
             position: "relative",
-            width: 360,
-            height: 744,
-            borderRadius: 52,
-            background: phoneSurface,
+            width: phoneFrame.width,
+            height: phoneFrame.height,
+            borderRadius: phoneFrame.borderRadius,
+            background: isIntro ? phoneSurface : "transparent",
             overflow: "hidden",
             flexShrink: 0,
-            boxShadow:
-              "0 0 0 1px rgba(255,255,255,0.06), 0 40px 100px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.08)",
+            boxShadow: isIntro
+              ? "0 0 0 1px rgba(255,255,255,0.06), 0 40px 100px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.08)"
+              : "none",
           }}
         >
           <div
@@ -408,11 +464,7 @@ function ChapterScene({
             />
           </div>
 
-          {isIntro ? (
-            <IntroCard config={config} />
-          ) : (
-            <VideoCard config={config} scene={scene} />
-          )}
+          {isIntro ? <IntroCard config={config} /> : null}
 
           <div
             style={{
@@ -658,9 +710,18 @@ export default function TutorialComposition({
   const outroDurationInFrames = Math.round(
     config.output.outroDurationSeconds * config.output.fps,
   )
+  const videoFrom = Math.round(
+    config.output.introDurationSeconds * config.output.fps,
+  )
+  const videoDurationInFrames = Math.round(
+    config.video.durationSeconds * config.output.fps,
+  )
 
   return (
     <AbsoluteFill style={{ background: config.theme.background }}>
+      <Sequence from={videoFrom} durationInFrames={videoDurationInFrames}>
+        <ContinuousVideoPhone config={config} />
+      </Sequence>
       {scenes.map((scene) => (
         <Sequence
           key={scene.chapter.id}
