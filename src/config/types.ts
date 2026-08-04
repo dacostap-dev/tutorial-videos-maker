@@ -3,6 +3,7 @@ export type AudioTimebase = "render" | "source"
 
 export type PhotoSlide = {
   src: string
+  alt?: string
   durationSeconds: number
   transitionSeconds?: number
   fit?: "contain" | "cover"

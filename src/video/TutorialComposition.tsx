@@ -98,43 +98,6 @@ function AppIcon({ config, size }: AppIconProps) {
   )
 }
 
-function Arrow({ direction }: { direction: "left" | "right" }) {
-  return (
-    <div
-      style={{
-        width: 48,
-        height: 48,
-        borderRadius: "50%",
-        background: "rgba(255,255,255,0.08)",
-        border: "1px solid rgba(255,255,255,0.12)",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      <svg width="18" height="18" viewBox="0 0 16 16" fill="none">
-        {direction === "left" ? (
-          <path
-            d="M10 3L5 8l5 5"
-            stroke="white"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        ) : (
-          <path
-            d="M6 3l5 5-5 5"
-            stroke="white"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        )}
-      </svg>
-    </div>
-  )
-}
-
 function IntroCard({ config }: { config: TutorialConfig }) {
   const frame = useCurrentFrame()
   const opacity = interpolate(frame, [0, 15], [0, 1], {
@@ -217,7 +180,7 @@ function IntroCard({ config }: { config: TutorialConfig }) {
       >
         <div
           style={{
-            color: "rgba(255,255,255,0.4)",
+            color: "rgba(255,255,255,0.6)",
             fontSize: 13,
             fontWeight: 600,
             letterSpacing: 1.5,
@@ -234,7 +197,7 @@ function IntroCard({ config }: { config: TutorialConfig }) {
 
       <div
         style={{
-          color: "rgba(255,255,255,0.35)",
+          color: "rgba(255,255,255,0.6)",
           fontSize: 14,
           lineHeight: 1.5,
           textAlign: "center",
@@ -249,7 +212,7 @@ function IntroCard({ config }: { config: TutorialConfig }) {
           alignItems: "center",
           gap: 9,
           marginTop: 38,
-          color: "rgba(255,255,255,0.25)",
+          color: "rgba(255,255,255,0.55)",
           fontSize: 13,
         }}
       >
@@ -681,7 +644,7 @@ function ChapterScene({
           <div>
             <div
               style={{
-                color: "rgba(255,255,255,0.35)",
+                color: "rgba(255,255,255,0.6)",
                 fontSize: 14,
                 fontWeight: 600,
                 letterSpacing: 1.5,
@@ -705,7 +668,7 @@ function ChapterScene({
             </div>
             <div
               style={{
-                color: "rgba(255,255,255,0.5)",
+                color: "rgba(255,255,255,0.65)",
                 fontSize: 16,
                 lineHeight: 1.5,
               }}
@@ -762,34 +725,6 @@ function ChapterScene({
           <div
             style={{
               position: "absolute",
-              top: 48,
-              left: 0,
-              right: 0,
-              display: "flex",
-              justifyContent: "center",
-              zIndex: 3,
-            }}
-          >
-            <div
-              style={{
-                background: `rgba(${accentRgb},0.15)`,
-                border: `1px solid rgba(${accentRgb},0.25)`,
-                borderRadius: 999,
-                color: accent,
-                padding: "5px 14px",
-                fontSize: 12,
-                fontWeight: 600,
-                letterSpacing: 1.7,
-                textTransform: "uppercase",
-              }}
-            >
-              {chapter.label}
-            </div>
-          </div>
-
-          <div
-            style={{
-              position: "absolute",
               bottom: 14,
               left: "50%",
               transform: "translateX(-50%)",
@@ -817,26 +752,33 @@ function ChapterScene({
               width: 216,
               display: "flex",
               flexDirection: "column",
-              gap: 10,
+              gap: 5,
             }}
           >
             {config.chapters.map((item, index) => (
               <div
                 key={item.id}
                 style={{
+                  minHeight: 54,
                   display: "flex",
                   alignItems: "center",
                   gap: 14,
-                  color:
-                    index === scene.index ? accent : "rgba(255,255,255,0.3)",
-                  fontSize: 14,
-                  fontWeight: 500,
+                  padding: "10px 12px",
+                  borderRadius: 14,
+                  background:
+                    index === scene.index
+                      ? `rgba(${accentRgb},0.1)`
+                      : "transparent",
+                  border:
+                    index === scene.index
+                      ? `1px solid rgba(${accentRgb},0.22)`
+                      : "1px solid transparent",
                 }}
               >
                 <div
                   style={{
-                    width: 8,
-                    height: 8,
+                    width: index === scene.index ? 8 : 6,
+                    height: index === scene.index ? 8 : 6,
                     borderRadius: "50%",
                     flexShrink: 0,
                     background:
@@ -847,22 +789,38 @@ function ChapterScene({
                           : "rgba(255,255,255,0.18)",
                   }}
                 />
-                <span>
-                  {item.label} — {item.tag}
-                </span>
+                <div style={{ minWidth: 0 }}>
+                  <div
+                    style={{
+                      color:
+                        index === scene.index
+                          ? accent
+                          : "rgba(255,255,255,0.7)",
+                      fontSize: 13,
+                      fontWeight: 600,
+                    }}
+                  >
+                    {item.label}
+                  </div>
+                  <div
+                    style={{
+                      marginTop: 4,
+                      color: "rgba(255,255,255,0.45)",
+                      fontSize: 11,
+                      lineHeight: 1.2,
+                    }}
+                  >
+                    {item.tag}
+                  </div>
+                </div>
               </div>
             ))}
-          </div>
-
-          <div style={{ display: "flex", gap: 14 }}>
-            <Arrow direction="left" />
-            <Arrow direction="right" />
           </div>
 
           <div
             style={{
               maxWidth: 216,
-              color: "rgba(255,255,255,0.2)",
+              color: "rgba(255,255,255,0.5)",
               fontSize: 14,
               lineHeight: 1.5,
             }}
@@ -886,7 +844,7 @@ function ChapterScene({
         <AppIcon config={config} size={38} />
         <div
           style={{
-            color: "rgba(255,255,255,0.4)",
+            color: "rgba(255,255,255,0.65)",
             fontSize: 16,
             fontWeight: 500,
             letterSpacing: 3,
@@ -904,7 +862,7 @@ function ChapterScene({
           bottom: 58,
           left: "50%",
           transform: "translateX(-50%)",
-          color: "rgba(255,255,255,0.2)",
+          color: "rgba(255,255,255,0.5)",
           fontSize: 14,
           letterSpacing: 3,
         }}

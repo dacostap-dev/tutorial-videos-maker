@@ -1,13 +1,13 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap');
-@import 'tailwindcss';
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap");
+@import "tailwindcss";
 
 @theme {
-  --font-sans: 'Outfit', sans-serif;
-  --font-serif: 'DM Serif Display', serif;
+  --font-sans: "Outfit", sans-serif;
+  --font-serif: "DM Serif Display", serif;
 }
 
 * {
-  font-family: 'Outfit', sans-serif;
+  font-family: "Outfit", sans-serif;
 }
 
 body {
@@ -34,12 +34,23 @@ body {
   90%       { transform: translate(-2%, 2%); }
 }
 
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
 .animate-fade-up {
   animation: fadeUp 0.45s ease both;
 }
 
 .grain::after {
-  content: '';
+  content: "";
   position: fixed;
   inset: -50%;
   width: 200%;

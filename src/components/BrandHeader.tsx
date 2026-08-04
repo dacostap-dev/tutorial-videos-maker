@@ -15,7 +15,7 @@ export default function BrandHeader({
   surface,
 }: BrandHeaderProps) {
   return (
-    <div className="relative z-10 mb-10 flex items-center gap-3">
+    <header className="relative z-10 mb-8 flex max-w-full flex-wrap items-center justify-center gap-3 sm:mb-10">
       <AppIcon
         size={32}
         logoSrc={brand.logoSrc}
@@ -23,9 +23,9 @@ export default function BrandHeader({
         accentRgb={accentRgb}
         surface={surface}
       />
-      <span className="text-sm font-medium uppercase tracking-[0.2em] text-white/40">
+      <span className="text-sm font-medium uppercase tracking-[0.2em] text-white/65">
         {brand.name} · {brand.eyebrow}
       </span>
-    </div>
+    </header>
   )
 }

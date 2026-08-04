@@ -80,11 +80,11 @@ export default function IntroScreen({
         </p>
       </div>
 
-      <p className="text-center text-xs leading-relaxed text-white/35">
+      <p className="text-center text-xs leading-relaxed text-white/60">
         {intro.description}
       </p>
 
-      <div className="mt-8 flex items-center gap-2 text-[11px] text-white/25">
+      <div className="mt-8 flex items-center gap-2 text-[11px] text-white/55">
         <div className="h-px w-4 bg-white/20" />
         <span>{intro.navigationHint}</span>
         <div className="h-px w-4 bg-white/20" />

@@ -1,5 +1,5 @@
-import type { TutorialConfig } from "./types";
-import appIcon from "../appicon.jpg";
+import type { TutorialConfig } from "./types"
+import appIcon from "../appicon.jpg"
 
 export const tutorialConfig = {
   mode: "video",
@@ -22,7 +22,7 @@ export const tutorialConfig = {
     sectionName: "Remate de cuotas",
     description:
       "Aprende a licitar cuotas de tu fondo colectivo y elegir cómo aplicar el beneficio obtenido.",
-    navigationHint: "Navega con las flechas",
+    navigationHint: "Explora con las flechas o elige un paso",
   },
 
   video: {
@@ -245,4 +245,4 @@ export const tutorialConfig = {
     introStart: "#0f1520",
     introEnd: "#07090f",
   },
-} satisfies TutorialConfig;
+} satisfies TutorialConfig

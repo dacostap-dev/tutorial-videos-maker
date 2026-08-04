@@ -43,7 +43,7 @@ export default function PhotoScreen({
         <img
           key={`${photo.src}-${index}`}
           src={photo.src.startsWith("/") ? photo.src : `/${photo.src}`}
-          alt=""
+          alt={photo.alt ?? ""}
           className="absolute inset-0 h-full w-full transition-opacity duration-300"
           style={{
             objectFit: photo.fit ?? "contain",
