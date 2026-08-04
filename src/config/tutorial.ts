@@ -1,7 +1,8 @@
-import type { TutorialConfig } from "./types"
-import appIcon from "../appicon.jpg"
+import type { TutorialConfig } from "./types";
+import appIcon from "../appicon.jpg";
 
 export const tutorialConfig = {
+  mode: "video",
   brand: {
     name: "Maquinet",
     eyebrow: "Fondos Colectivos",
@@ -42,6 +43,7 @@ export const tutorialConfig = {
 
   timeline: {
     chapterGapSeconds: 0,
+    photoTransitionSeconds: 0.35,
   },
 
   messages: {
@@ -202,4 +204,4 @@ export const tutorialConfig = {
     introStart: "#0f1520",
     introEnd: "#07090f",
   },
-} satisfies TutorialConfig
+} satisfies TutorialConfig;

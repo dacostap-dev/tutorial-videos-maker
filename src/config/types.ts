@@ -1,12 +1,22 @@
+export type TutorialMode = "video" | "photos"
+
+export type PhotoSlide = {
+  src: string
+  durationSeconds: number
+  transitionSeconds?: number
+  fit?: "contain" | "cover"
+}
+
 export type Chapter = {
   id: string
   label: string
   title: string
   description: string
-  sourceStart: number | null
+  sourceStart?: number | null
   sourceEnd?: number
   durationSeconds?: number
   tag: string
+  photos?: PhotoSlide[]
 }
 
 export type AudioCue = {
@@ -17,6 +27,7 @@ export type AudioCue = {
 }
 
 export type TutorialConfig = {
+  mode: TutorialMode
   brand: {
     name: string
     eyebrow: string
@@ -51,6 +62,7 @@ export type TutorialConfig = {
   }
   timeline: {
     chapterGapSeconds: number
+    photoTransitionSeconds?: number
   }
   messages: {
     videoError: string

@@ -1,4 +1,4 @@
-import type { Chapter, TutorialConfig } from "../config/types"
+import type { Chapter, PhotoSlide, TutorialConfig } from "../config/types"
 
 export type RenderScene = {
   chapter: Chapter
@@ -7,6 +7,40 @@ export type RenderScene = {
   durationInFrames: number
   sourceStartFrame: number | null
   sourceEndFrame: number | null
+}
+
+export type PhotoRenderSlide = {
+  photo: PhotoSlide
+  from: number
+  durationInFrames: number
+  transitionInFrames: number
+  transitionOutFrames: number
+}
+
+function getPhotoTransitionSeconds(photo: PhotoSlide, config: TutorialConfig) {
+  return Math.max(
+    0,
+    photo.transitionSeconds ?? config.timeline.photoTransitionSeconds ?? 0,
+  )
+}
+
+function getPhotoChapterDurationSeconds(
+  chapter: Chapter,
+  config: TutorialConfig,
+) {
+  const photos = chapter.photos ?? []
+  const totalSeconds = photos.reduce(
+    (total, photo) => total + photo.durationSeconds,
+    0,
+  )
+  const transitionSeconds = photos
+    .slice(0, -1)
+    .reduce(
+      (total, photo) => total + getPhotoTransitionSeconds(photo, config),
+      0,
+    )
+
+  return Math.max(0, totalSeconds - transitionSeconds)
 }
 
 function getChapterDurationSeconds(
@@ -20,6 +54,14 @@ function getChapterDurationSeconds(
 
   if (chapter.sourceStart === null) {
     return config.output.introDurationSeconds
+  }
+
+  if (config.mode === "photos") {
+    return getPhotoChapterDurationSeconds(chapter, config)
+  }
+
+  if (chapter.sourceStart === undefined) {
+    return 0
   }
 
   const nextChapter = config.chapters[index + 1]
@@ -43,14 +85,14 @@ export function getRenderScenes(config: TutorialConfig): RenderScene[] {
       ),
     )
     const sourceStartFrame =
-      chapter.sourceStart === null
-        ? null
-        : Math.round(chapter.sourceStart * config.output.fps)
+      config.mode === "video" && chapter.sourceStart !== null
+        ? Math.round((chapter.sourceStart ?? 0) * config.output.fps)
+        : null
     const sourceEnd =
-      chapter.sourceStart === null
+      config.mode !== "video" || chapter.sourceStart === null
         ? null
         : (chapter.sourceEnd ??
-          chapter.sourceStart + durationInFrames / config.output.fps)
+          (chapter.sourceStart ?? 0) + durationInFrames / config.output.fps)
     const sourceEndFrame =
       sourceEnd === null ? null : Math.round(sourceEnd * config.output.fps)
     const scene = {
@@ -68,6 +110,54 @@ export function getRenderScenes(config: TutorialConfig): RenderScene[] {
 
     return scene
   })
+}
+
+export function getPhotoRenderSlides(config: TutorialConfig) {
+  const slides: PhotoRenderSlide[] = []
+  const scenes = getRenderScenes(config)
+
+  for (const scene of scenes) {
+    const photos = scene.chapter.photos ?? []
+    let from = scene.from
+
+    photos.forEach((photo, index) => {
+      const durationInFrames = Math.max(
+        1,
+        Math.round(photo.durationSeconds * config.output.fps),
+      )
+      const transitionInFrames =
+        index === 0
+          ? 0
+          : Math.min(
+              durationInFrames - 1,
+              Math.round(
+                getPhotoTransitionSeconds(photos[index - 1], config) *
+                  config.output.fps,
+              ),
+            )
+      const transitionOutFrames =
+        index === photos.length - 1
+          ? 0
+          : Math.min(
+              durationInFrames - 1,
+              Math.round(
+                getPhotoTransitionSeconds(photo, config) * config.output.fps,
+              ),
+            )
+
+      slides.push({
+        photo,
+        from,
+        durationInFrames,
+        transitionInFrames,
+        transitionOutFrames,
+      })
+
+      from += durationInFrames - transitionOutFrames
+    })
+  }
+
+  return slides
 }
 
 export function getTotalDurationInFrames(config: TutorialConfig) {

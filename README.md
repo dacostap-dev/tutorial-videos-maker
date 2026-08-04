@@ -18,6 +18,7 @@ Edita `src/config/tutorial.ts`. La configuración controla:
 - Metadata, idioma y comportamiento de indexación.
 - Textos de introducción y mensajes de navegación.
 - Asset de vídeo, tipo MIME, poster, autoplay y silencio.
+- Modo de composición: `video` continuo o `photos` por capítulos.
 - Capítulos, descripciones, etiquetas, timestamps y duración de escenas.
 - Duración de la introducción, outro y cues de audio de la narración.
 - Colores de acento, fondo y teléfono.
@@ -26,9 +27,60 @@ Para usar un logo personalizado, importa una imagen desde `src` y asígnala a
 `brand.logoSrc`. Para usar otro vídeo local, importa el asset y asígnalo a
 `video.src`.
 
-El vídeo debe utilizar un formato compatible con navegadores, como MP4 con
-vídeo H.264. Actualiza `video.durationSeconds` cada vez que cambie el vídeo
-fuente. Los valores `sourceStart` y `sourceEnd` se expresan en segundos.
+En modo `video`, el vídeo debe utilizar un formato compatible con navegadores,
+como MP4 con vídeo H.264. Actualiza `video.durationSeconds` cada vez que cambie
+el vídeo fuente. Los valores `sourceStart` y `sourceEnd` se expresan en
+segundos.
+
+### Modo Fotos
+
+Para crear un tutorial a partir de capturas, cambia `mode` a `"photos"` y
+asigna una lista `photos` a cada capítulo. La introducción puede seguir usando
+`sourceStart: null`; los capítulos de fotos no necesitan `sourceStart` ni
+`sourceEnd`.
+
+```ts
+mode: "photos",
+
+timeline: {
+  chapterGapSeconds: 0,
+  photoTransitionSeconds: 0.35,
+},
+
+chapters: [
+  {
+    id: "step-1",
+    label: "Paso 1",
+    title: "Selecciona tus cuotas",
+    description: "Elige las cuotas con las que quieres participar.",
+    tag: "Selección de cuotas",
+    photos: [
+      {
+        src: "assets/select-1.png",
+        durationSeconds: 3,
+      },
+      {
+        src: "assets/select-2.png",
+        durationSeconds: 3,
+        transitionSeconds: 0.5,
+        fit: "contain",
+      },
+    ],
+  },
+]
+```
+
+`durationSeconds` define cuánto permanece cada foto. Las transiciones se
+solapan entre fotos, por lo que la duración del capítulo se calcula restando
+los tiempos de transición a la suma de las duraciones. Usa `fit: "contain"`
+para conservar capturas completas o `fit: "cover"` para llenar el teléfono
+recortando los bordes.
+
+El modo fotos mantiene el mismo teléfono vertical, encabezado, pasos, audio,
+intro y outro del modo video. Los cambios de capítulo conservan un fade y las
+fotos usan crossfade; no se agrega zoom automático para mantener legibles los
+textos de las capturas. La previsualización web también cambia al visor de
+fotos cuando `mode` es `"photos"`.
 
 ## Renderizar Un Vídeo
 

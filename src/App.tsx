@@ -1,17 +1,21 @@
 import { useEffect, useRef, useState, type CSSProperties } from "react"
-import { tutorialConfig as config } from "./config/tutorial"
+import { tutorialConfig } from "./config/tutorial"
+import type { TutorialConfig } from "./config/types"
 import BrandHeader from "./components/BrandHeader"
 import ChapterTag from "./components/ChapterTag"
 import IntroScreen from "./components/IntroScreen"
 import NavigationArrow from "./components/NavigationArrow"
+import PhotoScreen from "./components/PhotoScreen"
 import VideoScreen from "./components/VideoScreen"
+
+const config: TutorialConfig = tutorialConfig
 
 export default function App() {
   const [current, setCurrent] = useState(0)
   const [animKey, setAnimKey] = useState(0)
   const videoRef = useRef<HTMLVideoElement>(null)
   const chapter = config.chapters[current]
-  const isIntro = chapter.sourceStart === null
+  const isIntro = chapter.sourceStart == null
 
   const themeStyle = {
     "--app-background": config.theme.background,
@@ -55,7 +59,7 @@ export default function App() {
     const video = videoRef.current
     const timestamp = chapter.sourceStart
 
-    if (!video || timestamp === null) return
+    if (!video || timestamp == null) return
 
     const playChapter = () => {
       video.currentTime = timestamp
@@ -172,6 +176,12 @@ export default function App() {
                 introStart={config.theme.introStart}
                 introEnd={config.theme.introEnd}
                 animationKey={animKey}
+              />
+            ) : config.mode === "photos" ? (
+              <PhotoScreen
+                key="photos"
+                photos={chapter.photos ?? []}
+                errorMessage={config.messages.videoError}
               />
             ) : (
               <VideoScreen

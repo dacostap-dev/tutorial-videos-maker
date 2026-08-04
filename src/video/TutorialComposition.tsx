@@ -10,8 +10,10 @@ import {
 import type { TutorialConfig } from "../config/types"
 import {
   getOutroFrom,
+  getPhotoRenderSlides,
   getRenderScenes,
   getTotalDurationInFrames,
+  type PhotoRenderSlide,
   type RenderScene,
 } from "./timeline"
 
@@ -330,6 +332,125 @@ function ContinuousVideoPhone({ config }: { config: TutorialConfig }) {
   )
 }
 
+function PhotoSlideLayer({
+  config,
+  slide,
+}: {
+  config: TutorialConfig
+  slide: PhotoRenderSlide
+}) {
+  const frame = useCurrentFrame()
+  const fadeIn =
+    slide.transitionInFrames > 0
+      ? interpolate(frame, [0, slide.transitionInFrames], [0, 1], {
+          extrapolateRight: "clamp",
+        })
+      : 1
+  const fadeOut =
+    slide.transitionOutFrames > 0
+      ? interpolate(
+          frame,
+          [
+            slide.durationInFrames - slide.transitionOutFrames,
+            slide.durationInFrames,
+          ],
+          [1, 0],
+          { extrapolateLeft: "clamp", extrapolateRight: "clamp" },
+        )
+      : 1
+
+  return (
+    <img
+      src={mediaSource(slide.photo.src)}
+      alt=""
+      style={{
+        position: "absolute",
+        inset: 0,
+        width: "100%",
+        height: "100%",
+        objectFit: slide.photo.fit ?? "contain",
+        background: config.theme.phoneSurface,
+        opacity: Math.min(fadeIn, fadeOut),
+      }}
+    />
+  )
+}
+
+function PhotoSequencePhone({ config }: { config: TutorialConfig }) {
+  const photoFrom = Math.round(
+    config.output.introDurationSeconds * config.output.fps,
+  )
+  const slides = getPhotoRenderSlides(config)
+
+  return (
+    <div
+      style={{
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+        width: phoneFrame.width,
+        height: phoneFrame.height,
+        transform: "translate(-50%, -50%)",
+        borderRadius: phoneFrame.borderRadius,
+        background: config.theme.phoneSurface,
+        overflow: "hidden",
+        boxShadow:
+          "0 0 0 1px rgba(255,255,255,0.06), 0 40px 100px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.08)",
+      }}
+    >
+      {slides.map((slide) => (
+        <Sequence
+          key={`${slide.photo.src}-${slide.from}`}
+          from={slide.from - photoFrom}
+          durationInFrames={slide.durationInFrames}
+        >
+          <PhotoSlideLayer config={config} slide={slide} />
+        </Sequence>
+      ))}
+      <div
+        style={{
+          position: "absolute",
+          top: 0,
+          left: "50%",
+          transform: "translateX(-50%)",
+          width: 120,
+          height: 34,
+          borderBottomLeftRadius: 17,
+          borderBottomRightRadius: 17,
+          background: config.theme.phoneSurface,
+          zIndex: 2,
+        }}
+      >
+        <div
+          style={{
+            position: "absolute",
+            bottom: 10,
+            left: "50%",
+            transform: "translateX(-50%)",
+            width: 68,
+            height: 6,
+            borderRadius: 999,
+            background: "rgba(255,255,255,0.1)",
+          }}
+        />
+      </div>
+      <div
+        style={{
+          position: "absolute",
+          bottom: 14,
+          left: "50%",
+          transform: "translateX(-50%)",
+          width: 96,
+          height: 6,
+          borderRadius: 999,
+          background: "rgba(255,255,255,0.2)",
+          zIndex: 2,
+        }}
+      />
+    </div>
+  )
+}
+
 function ChapterScene({
   config,
   scene,
@@ -341,11 +462,12 @@ function ChapterScene({
   const { chapter } = scene
   const { accent, accentRgb, phoneSurface } = config.theme
   const isIntro = chapter.sourceStart === null
-  const opacity = isIntro
-    ? interpolate(frame, [0, 15], [0, 1], {
-        extrapolateRight: "clamp",
-      })
-    : 1
+  const opacity =
+    isIntro || config.mode === "photos"
+      ? interpolate(frame, [0, 15], [0, 1], {
+          extrapolateRight: "clamp",
+        })
+      : 1
 
   return (
     <AbsoluteFill style={{ opacity, color: "white" }}>
@@ -702,9 +824,7 @@ function AudioCueLayer({ config }: { config: TutorialConfig }) {
   )
 }
 
-export default function TutorialComposition({
-  config,
-}: TutorialCompositionProps) {
+function VideoTutorialComposition({ config }: TutorialCompositionProps) {
   const scenes = getRenderScenes(config)
   const outroFrom = getOutroFrom(config)
   const outroDurationInFrames = Math.round(
@@ -736,5 +856,48 @@ export default function TutorialComposition({
       </Sequence>
       <AudioCueLayer config={config} />
     </AbsoluteFill>
+  )
+}
+
+function PhotoTutorialComposition({ config }: TutorialCompositionProps) {
+  const scenes = getRenderScenes(config)
+  const outroFrom = getOutroFrom(config)
+  const outroDurationInFrames = Math.round(
+    config.output.outroDurationSeconds * config.output.fps,
+  )
+  const photoFrom = Math.round(
+    config.output.introDurationSeconds * config.output.fps,
+  )
+
+  return (
+    <AbsoluteFill style={{ background: config.theme.background }}>
+      <Sequence
+        from={photoFrom}
+        durationInFrames={Math.max(1, outroFrom - photoFrom)}
+      >
+        <PhotoSequencePhone config={config} />
+      </Sequence>
+      {scenes.map((scene) => (
+        <Sequence
+          key={scene.chapter.id}
+          from={scene.from}
+          durationInFrames={scene.durationInFrames}
+        >
+          <ChapterScene config={config} scene={scene} />
+        </Sequence>
+      ))}
+      <Sequence from={outroFrom} durationInFrames={outroDurationInFrames}>
+        <OutroScene config={config} />
+      </Sequence>
+      <AudioCueLayer config={config} />
+    </AbsoluteFill>
+  )
+}
+
+export default function TutorialComposition(props: TutorialCompositionProps) {
+  return props.config.mode === "photos" ? (
+    <PhotoTutorialComposition {...props} />
+  ) : (
+    <VideoTutorialComposition {...props} />
   )
 }
