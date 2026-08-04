@@ -101,8 +101,9 @@ con una ruta como `assets/remate.mp4`.
 ### Sincronizar El Audio Con El Vídeo
 
 La sincronización es manual y usa una única línea de tiempo absoluta para el
-vídeo final. El render no pone pausas al vídeo, no modifica su velocidad y no
-analiza automáticamente qué aparece en pantalla. Cada capítulo muestra un
+vídeo final. Por defecto el render no pone pausas ni modifica la velocidad del
+vídeo, y no analiza automáticamente qué aparece en pantalla. Si se configura un
+`videoHold`, se congela un frame sin detener el audio. Cada capítulo muestra un
 segmento definido del vídeo fuente y cada audio comienza en el segundo indicado
 por su cue.
 
@@ -143,6 +144,26 @@ Los archivos referenciados por `audioSrc` deben estar en `public/audio/`. El
 pipeline actual soporta esos archivos, pero no llama directamente a un
 proveedor TTS. Esto mantiene los renders deterministas y evita exponer claves
 de API en el navegador.
+
+### Pausar El Vídeo Sin Pausar El Audio
+
+Si una narración necesita más tiempo para explicar una pantalla, agrega un hold
+de vídeo en `videoHolds`. El render mantiene un frame congelado durante el tiempo
+indicado mientras los audios continúan reproduciéndose:
+
+```ts
+videoHolds: [
+  {
+    sourceAtSeconds: 29,
+    durationSeconds: 3,
+    frameSrc: "assets/remate-hold-29.jpg",
+  },
+]
+```
+
+`sourceAtSeconds` usa el tiempo del vídeo fuente, no el tiempo final del render.
+El hold desplaza automáticamente los capítulos y los cues de audio posteriores.
+Genera el frame congelado desde el vídeo fuente y guárdalo en `public/assets/`.
 
 ## Grabar La Voz De ChatGPT
 

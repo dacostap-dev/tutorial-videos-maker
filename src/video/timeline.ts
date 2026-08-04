@@ -43,6 +43,68 @@ function getPhotoChapterDurationSeconds(
   return Math.max(0, totalSeconds - transitionSeconds)
 }
 
+function getVideoHolds(config: TutorialConfig) {
+  return [...(config.videoHolds ?? [])].sort(
+    (a, b) => a.sourceAtSeconds - b.sourceAtSeconds,
+  )
+}
+
+function getVideoHoldDurationBetween(
+  config: TutorialConfig,
+  sourceStart: number,
+  sourceEnd: number,
+) {
+  if (config.mode !== "video") return 0
+
+  return getVideoHolds(config)
+    .filter(
+      (hold) =>
+        hold.sourceAtSeconds >= sourceStart && hold.sourceAtSeconds < sourceEnd,
+    )
+    .reduce((total, hold) => total + hold.durationSeconds, 0)
+}
+
+function getVideoHoldDurationBeforeSource(
+  config: TutorialConfig,
+  sourceSeconds: number,
+) {
+  return getVideoHolds(config)
+    .filter((hold) => hold.sourceAtSeconds < sourceSeconds)
+    .reduce((total, hold) => total + hold.durationSeconds, 0)
+}
+
+export function getVideoPlaybackDurationInFrames(config: TutorialConfig) {
+  const holdDurationSeconds = getVideoHolds(config).reduce(
+    (total, hold) => total + hold.durationSeconds,
+    0,
+  )
+
+  return Math.round(
+    (config.video.durationSeconds + holdDurationSeconds) * config.output.fps,
+  )
+}
+
+export function getAudioCueStartSeconds(
+  config: TutorialConfig,
+  startSeconds: number,
+) {
+  if (config.mode !== "video") return startSeconds
+
+  return (
+    startSeconds +
+    getVideoHolds(config).reduce((total, hold) => {
+      const originalOutputTime =
+        config.output.introDurationSeconds +
+        hold.sourceAtSeconds +
+        getVideoHoldDurationBeforeSource(config, hold.sourceAtSeconds)
+
+      return (
+        total + (startSeconds > originalOutputTime ? hold.durationSeconds : 0)
+      )
+    }, 0)
+  )
+}
+
 function getChapterDurationSeconds(
   chapter: Chapter,
   index: number,
@@ -71,7 +133,10 @@ function getChapterDurationSeconds(
       ? nextChapter.sourceStart
       : config.video.durationSeconds)
 
-  return Math.max(0, sourceEnd - chapter.sourceStart)
+  return (
+    Math.max(0, sourceEnd - chapter.sourceStart) +
+    getVideoHoldDurationBetween(config, chapter.sourceStart, sourceEnd)
+  )
 }
 
 export function getRenderScenes(config: TutorialConfig): RenderScene[] {

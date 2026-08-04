@@ -7,6 +7,12 @@ export type PhotoSlide = {
   fit?: "contain" | "cover"
 }
 
+export type VideoHold = {
+  sourceAtSeconds: number
+  durationSeconds: number
+  frameSrc: string
+}
+
 export type Chapter = {
   id: string
   label: string
@@ -53,6 +59,7 @@ export type TutorialConfig = {
     muted?: boolean
     poster?: string
   }
+  videoHolds?: VideoHold[]
   output: {
     width: number
     height: number

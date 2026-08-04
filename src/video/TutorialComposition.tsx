@@ -9,10 +9,12 @@ import {
 } from "remotion"
 import type { TutorialConfig } from "../config/types"
 import {
+  getAudioCueStartSeconds,
   getOutroFrom,
   getPhotoRenderSlides,
   getRenderScenes,
   getTotalDurationInFrames,
+  getVideoPlaybackDurationInFrames,
   type PhotoRenderSlide,
   type RenderScene,
 } from "./timeline"
@@ -260,10 +262,77 @@ function IntroCard({ config }: { config: TutorialConfig }) {
   )
 }
 
-function ContinuousVideoPhone({ config }: { config: TutorialConfig }) {
+type VideoSegment = {
+  type: "video"
+  from: number
+  durationInFrames: number
+  sourceStartFrame: number
+  sourceEndFrame: number
+} | {
+  type: "hold"
+  from: number
+  durationInFrames: number
+  frameSrc: string
+}
+
+function getVideoSegments(config: TutorialConfig): VideoSegment[] {
   const sourceDurationInFrames = Math.round(
     config.video.durationSeconds * config.output.fps,
   )
+  const holds = [...(config.videoHolds ?? [])].sort(
+    (a, b) => a.sourceAtSeconds - b.sourceAtSeconds,
+  )
+  const segments: VideoSegment[] = []
+  let sourceCursor = 0
+  let outputCursor = 0
+
+  for (const hold of holds) {
+    const sourceAtFrame = Math.min(
+      sourceDurationInFrames,
+      Math.max(0, Math.round(hold.sourceAtSeconds * config.output.fps)),
+    )
+    const holdDurationInFrames = Math.max(
+      1,
+      Math.round(hold.durationSeconds * config.output.fps),
+    )
+
+    if (sourceAtFrame > sourceCursor) {
+      const durationInFrames = sourceAtFrame - sourceCursor
+      segments.push({
+        type: "video",
+        from: outputCursor,
+        durationInFrames,
+        sourceStartFrame: sourceCursor,
+        sourceEndFrame: sourceAtFrame,
+      })
+      outputCursor += durationInFrames
+    }
+
+    segments.push({
+      type: "hold",
+      from: outputCursor,
+      durationInFrames: holdDurationInFrames,
+      frameSrc: hold.frameSrc,
+    })
+    outputCursor += holdDurationInFrames
+    sourceCursor = sourceAtFrame
+  }
+
+  if (sourceCursor < sourceDurationInFrames) {
+    segments.push({
+      type: "video",
+      from: outputCursor,
+      durationInFrames: sourceDurationInFrames - sourceCursor,
+      sourceStartFrame: sourceCursor,
+      sourceEndFrame: sourceDurationInFrames,
+    })
+  }
+
+  return segments
+}
+
+function ContinuousVideoPhone({ config }: { config: TutorialConfig }) {
+  const segments = getVideoSegments(config)
 
   return (
     <div
@@ -281,13 +350,29 @@ function ContinuousVideoPhone({ config }: { config: TutorialConfig }) {
           "0 0 0 1px rgba(255,255,255,0.06), 0 40px 100px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.08)",
       }}
     >
-      <OffthreadVideo
-        src={mediaSource(config.video.src)}
-        trimBefore={0}
-        trimAfter={sourceDurationInFrames}
-        muted={config.video.muted}
-        style={{ width: "100%", height: "100%", objectFit: "cover" }}
-      />
+      {segments.map((segment) => (
+        <Sequence
+          key={`${segment.type}-${segment.from}`}
+          from={segment.from}
+          durationInFrames={segment.durationInFrames}
+        >
+          {segment.type === "hold" ? (
+            <img
+              src={mediaSource(segment.frameSrc)}
+              alt=""
+              style={{ width: "100%", height: "100%", objectFit: "cover" }}
+            />
+          ) : (
+            <OffthreadVideo
+              src={mediaSource(config.video.src)}
+              trimBefore={segment.sourceStartFrame}
+              trimAfter={segment.sourceEndFrame}
+              muted={config.video.muted}
+              style={{ width: "100%", height: "100%", objectFit: "cover" }}
+            />
+          )}
+        </Sequence>
+      ))}
       <div
         style={{
           position: "absolute",
@@ -808,7 +893,9 @@ function AudioCueLayer({ config }: { config: TutorialConfig }) {
       {config.audioCues.map((cue) => {
         if (!cue.audioSrc) return null
 
-        const from = Math.round(cue.startSeconds * config.output.fps)
+        const from = Math.round(
+          getAudioCueStartSeconds(config, cue.startSeconds) * config.output.fps,
+        )
 
         return (
           <Sequence
@@ -833,9 +920,7 @@ function VideoTutorialComposition({ config }: TutorialCompositionProps) {
   const videoFrom = Math.round(
     config.output.introDurationSeconds * config.output.fps,
   )
-  const videoDurationInFrames = Math.round(
-    config.video.durationSeconds * config.output.fps,
-  )
+  const videoDurationInFrames = getVideoPlaybackDurationInFrames(config)
 
   return (
     <AbsoluteFill style={{ background: config.theme.background }}>
