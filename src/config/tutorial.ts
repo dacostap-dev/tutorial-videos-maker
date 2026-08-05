@@ -1,5 +1,5 @@
-import type { TutorialConfig } from "./types"
-import appIcon from "../appicon.jpg"
+import type { TutorialConfig } from "./types";
+import appIcon from "../appicon.jpg";
 
 export const tutorialConfig = {
   mode: "video",
@@ -201,7 +201,7 @@ export const tutorialConfig = {
       label: "Introducción",
       title: "Sección Remate",
       description:
-        "Conoce cómo funciona el Remate dentro de Maquinet. Una herramienta que te permite licitar cuotas de tu fondo colectivo y obtener beneficios anticipados.",
+        "Conoce cómo funciona el Remate en Maquinet. Una herramienta que te permite presentar una propuesta para adelantar la entrega de tu bien.",
       sourceStart: null,
       tag: "Descripción general",
     },
@@ -210,28 +210,28 @@ export const tutorialConfig = {
       label: "Paso 1",
       title: "Selecciona tus cuotas",
       description:
-        "Elige las cuotas con las que quieres participar del remate. Puedes seleccionar una o varias cuotas disponibles en tu fondo.",
+        "Elige las cuotas con las que quieres participar en el remate. Puedes seleccionar una o varias cuotas disponibles en tu fondo.",
       sourceStart: 0,
-      sourceEnd: 30,
+      sourceEnd: 19,
       tag: "Selección de cuotas",
     },
     {
       id: "step-2",
       label: "Paso 2",
-      title: "Aplica el beneficio",
+      title: "Aplica y revisa la simulación",
       description:
-        "Decide si prefieres reducir el monto de cada cuota mensual o acortar el plazo total de tu plan de ahorro.",
-      sourceStart: 30,
-      sourceEnd: 55,
-      tag: "Reducir cuotas · Reducir plazo",
+        "Decide si prefieres reducir el valor de tu cuota mensual o acortar el plazo de tu plan.",
+      sourceStart: 19,
+      sourceEnd: 44,
+      tag: "Aplicar remate",
     },
     {
       id: "step-3",
       label: "Paso 3",
-      title: "Confirmación",
+      title: "Confirma y gestiona tu remate",
       description:
-        "El remate queda registrado y el beneficio se aplica en el próximo período de liquidación de tu fondo.",
-      sourceStart: 55,
+        "Al confirmar, tu remate quedará registrado para participar en la próxima asamblea.",
+      sourceStart: 44,
       sourceEnd: 56.381,
       tag: "Remate confirmado",
     },
@@ -245,4 +245,4 @@ export const tutorialConfig = {
     introStart: "#0f1520",
     introEnd: "#07090f",
   },
-} satisfies TutorialConfig
+} satisfies TutorialConfig;
