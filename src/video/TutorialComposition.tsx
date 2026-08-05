@@ -948,7 +948,7 @@ function AudioCueLayer({ config }: { config: TutorialConfig }) {
             from={from}
             durationInFrames={Math.max(1, totalDurationInFrames - from)}
           >
-            <Audio src={mediaSource(cue.audioSrc)} />
+            <Audio src={mediaSource(cue.audioSrc)} volume={cue.volume ?? 1} />
           </Sequence>
         )
       })}

@@ -1,5 +1,5 @@
-import type { TutorialConfig } from "../types"
-import { productDefaults } from "../product"
+import type { TutorialConfig } from "../types";
+import { productDefaults } from "../product";
 
 export const remateConfig = {
   ...productDefaults,
@@ -145,6 +145,14 @@ export const remateConfig = {
       audioSrc: "audio/processed/success.m4a",
     },
     {
+      id: "confirmation-celebration",
+      timebase: "render",
+      startSeconds: 56.5,
+      text: "Efecto de confirmación",
+      audioSrc: "audio/hero_simple-celebration-01.wav",
+      volume: 0.35,
+    },
+    {
       id: "assembly",
       timebase: "render",
       startSeconds: 57.5,
@@ -215,4 +223,4 @@ export const remateConfig = {
       tag: "Remate confirmado",
     },
   ],
-} satisfies TutorialConfig
+} satisfies TutorialConfig;

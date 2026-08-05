@@ -32,6 +32,7 @@ export type AudioCue = {
   startSeconds: number
   text: string
   audioSrc?: string
+  volume?: number
 }
 
 export type TutorialConfig = {
