@@ -205,7 +205,7 @@ export const remateConfig = {
     {
       id: "step-2",
       label: "Paso 2",
-      title: "Aplica y revisa la simulación",
+      title: "Elige una opción y revisa la simulación",
       description:
         "Decide si prefieres reducir el valor de tu cuota mensual o acortar el plazo de tu plan.",
       sourceStart: 19,
