@@ -162,14 +162,14 @@ export const remateConfig = {
     {
       id: "withdraw",
       timebase: "render",
-      startSeconds: 61.2,
+      startSeconds: 61.4,
       text: "Si cambias de opinión, puedes retirarla antes de que comience la asamblea.",
       audioSrc: "audio/processed/withdraw.m4a",
     },
     {
       id: "delete-remate",
       timebase: "render",
-      startSeconds: 65,
+      startSeconds: 65.2,
       text: "Toca “Eliminar remate” y confirma la eliminación.",
       audioSrc: "audio/processed/delete-remate.m4a",
     },
