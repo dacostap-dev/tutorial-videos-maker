@@ -885,46 +885,113 @@ function ChapterScene({
 
 function OutroScene({ config }: { config: TutorialConfig }) {
   const frame = useCurrentFrame()
-  const opacity = interpolate(frame, [0, 15], [0, 1], {
+  const reveal = interpolate(frame, [0, 18], [0, 1], {
     extrapolateRight: "clamp",
   })
+  const contentY = interpolate(frame, [0, 18], [24, 0], {
+    extrapolateRight: "clamp",
+  })
+  const { accent, accentRgb, introStart, introEnd } = config.theme
 
   return (
     <AbsoluteFill
       style={{
-        opacity,
-        alignItems: "center",
-        justifyContent: "center",
-        display: "flex",
-        flexDirection: "column",
-        background: `linear-gradient(160deg, ${config.theme.introStart} 0%, ${config.theme.introEnd} 100%)`,
-        color: "white",
+        overflow: "hidden",
+        background: `linear-gradient(145deg, ${introStart} 0%, ${introEnd} 72%)`,
       }}
     >
-      <AppIcon config={config} size={72} />
       <div
         style={{
-          marginTop: 26,
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          width: 620,
+          height: 620,
+          borderRadius: "50%",
+          transform: "translate(-50%, -50%)",
+          background: `radial-gradient(circle, rgba(${accentRgb},0.1) 0%, rgba(${accentRgb},0.025) 38%, transparent 70%)`,
+        }}
+      />
+
+      <AbsoluteFill
+        style={{
+          alignItems: "center",
+          justifyContent: "center",
+          display: "flex",
           color: "white",
-          fontFamily: "DM Serif Display, serif",
-          fontSize: 37,
-          fontWeight: 700,
         }}
       >
-        {config.outro.title}
-      </div>
-      <div
-        style={{
-          maxWidth: 500,
-          marginTop: 12,
-          color: "rgba(255,255,255,0.55)",
-          fontSize: 19,
-          lineHeight: 1.5,
-          textAlign: "center",
-        }}
-      >
-        {config.outro.description}
-      </div>
+        <div
+          style={{
+            width: 560,
+            textAlign: "center",
+            opacity: reveal,
+            transform: `translateY(${contentY}px)`,
+          }}
+        >
+          <div
+            style={{
+              width: 96,
+              height: 96,
+              margin: "0 auto",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              borderRadius: 28,
+              background: "rgba(255,255,255,0.04)",
+              border: "1px solid rgba(255,255,255,0.1)",
+              boxShadow: `0 0 28px rgba(${accentRgb},0.12)`,
+            }}
+          >
+            <AppIcon config={config} size={72} />
+          </div>
+
+          <div
+            style={{
+              marginTop: 28,
+              color: "white",
+              fontFamily: "DM Serif Display, serif",
+              fontSize: 48,
+              fontWeight: 700,
+              lineHeight: 1,
+            }}
+          >
+            {config.outro.title}
+          </div>
+          <div
+            style={{
+              margin: "16px auto 0",
+              maxWidth: 500,
+              color: "rgba(255,255,255,0.68)",
+              fontSize: 17,
+              lineHeight: 1.5,
+            }}
+          >
+            {config.outro.description}
+          </div>
+          <div
+            style={{
+              width: 48,
+              height: 2,
+              margin: "24px auto 0",
+              borderRadius: 999,
+              background: accent,
+              opacity: 0.8,
+            }}
+          />
+          <div
+            style={{
+              marginTop: 16,
+              color: "rgba(255,255,255,0.38)",
+              fontSize: 12,
+              letterSpacing: 1.4,
+              textTransform: "uppercase",
+            }}
+          >
+            {config.brand.name} · {config.intro.sectionName}
+          </div>
+        </div>
+      </AbsoluteFill>
     </AbsoluteFill>
   )
 }
