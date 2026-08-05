@@ -17,7 +17,7 @@ export const remateConfig = {
     sectionLabel: "Sección que verás",
     sectionName: "Remate de cuotas",
     description:
-      "Aprende a licitar cuotas de tu fondo colectivo y elegir cómo aplicar el beneficio obtenido.",
+      "Aprende a registrar y gestionar tu propuesta de remate desde Maquinet.",
     navigationHint: "Explora con las flechas o elige un paso",
   },
 

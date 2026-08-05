@@ -612,12 +612,12 @@ function ChapterScene({
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          gap: 40,
+          gap: 48,
         }}
       >
         <div
           style={{
-            width: 310,
+            width: 350,
             display: "flex",
             flexDirection: "column",
             alignItems: "flex-end",
@@ -658,7 +658,7 @@ function ChapterScene({
               style={{
                 color: "white",
                 fontFamily: "DM Serif Display, serif",
-                fontSize: 34,
+                fontSize: 38,
                 fontWeight: 700,
                 lineHeight: 1.15,
                 marginBottom: 15,
@@ -669,7 +669,7 @@ function ChapterScene({
             <div
               style={{
                 color: "rgba(255,255,255,0.65)",
-                fontSize: 16,
+                fontSize: 17,
                 lineHeight: 1.5,
               }}
             >
@@ -739,7 +739,7 @@ function ChapterScene({
 
         <div
           style={{
-            width: 310,
+            width: 350,
             display: "flex",
             flexDirection: "column",
             alignItems: "flex-start",
@@ -749,7 +749,7 @@ function ChapterScene({
         >
           <div
             style={{
-              width: 216,
+              width: 248,
               display: "flex",
               flexDirection: "column",
               gap: 5,
@@ -796,7 +796,7 @@ function ChapterScene({
                         index === scene.index
                           ? accent
                           : "rgba(255,255,255,0.7)",
-                      fontSize: 13,
+                      fontSize: 14,
                       fontWeight: 600,
                     }}
                   >
@@ -806,7 +806,7 @@ function ChapterScene({
                     style={{
                       marginTop: 4,
                       color: "rgba(255,255,255,0.45)",
-                      fontSize: 11,
+                      fontSize: 12,
                       lineHeight: 1.2,
                     }}
                   >
@@ -819,9 +819,9 @@ function ChapterScene({
 
           <div
             style={{
-              maxWidth: 216,
+              maxWidth: 248,
               color: "rgba(255,255,255,0.5)",
-              fontSize: 14,
+              fontSize: 15,
               lineHeight: 1.5,
             }}
           >
@@ -904,10 +904,10 @@ function OutroScene({ config }: { config: TutorialConfig }) {
       <AppIcon config={config} size={72} />
       <div
         style={{
-          marginTop: 24,
+          marginTop: 26,
           color: "white",
           fontFamily: "DM Serif Display, serif",
-          fontSize: 30,
+          fontSize: 34,
           fontWeight: 700,
         }}
       >
@@ -915,10 +915,10 @@ function OutroScene({ config }: { config: TutorialConfig }) {
       </div>
       <div
         style={{
-          maxWidth: 420,
+          maxWidth: 500,
           marginTop: 12,
           color: "rgba(255,255,255,0.55)",
-          fontSize: 16,
+          fontSize: 17,
           lineHeight: 1.5,
           textAlign: "center",
         }}

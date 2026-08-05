@@ -118,7 +118,7 @@ export default function App() {
       <h1 className="sr-only">{config.metadata.title}</h1>
 
       <main
-        className="relative z-10 flex w-full max-w-4xl items-center gap-8"
+        className="relative z-10 flex w-full max-w-5xl items-center gap-10"
         aria-label="Tutorial interactivo"
       >
         <div className="hidden flex-1 flex-col items-end gap-4 pr-4 md:flex">
@@ -137,12 +137,12 @@ export default function App() {
               {chapter.label}
             </p>
             <h2
-              className="mb-3 text-3xl font-bold leading-tight text-white"
+              className="mb-3 text-[34px] font-bold leading-tight text-white"
               style={{ fontFamily: "'DM Serif Display', serif" }}
             >
               {chapter.title}
             </h2>
-            <p className="max-w-xs text-sm leading-relaxed text-white/65">
+            <p className="max-w-sm text-[15px] leading-relaxed text-white/65">
               {chapter.description}
             </p>
           </div>
@@ -271,7 +271,7 @@ export default function App() {
 
         <div className="hidden flex-1 flex-col items-start gap-6 pl-4 md:flex">
           <nav
-            className="flex w-full max-w-52 flex-col gap-1"
+            className="flex w-full max-w-60 flex-col gap-1"
             aria-label="Capítulos del tutorial"
           >
             {config.chapters.map((item, index) => (
@@ -340,7 +340,7 @@ export default function App() {
             />
           </div>
 
-          <p className="max-w-52 text-xs leading-relaxed text-white/50">
+          <p className="max-w-60 text-xs leading-relaxed text-white/50">
             {config.intro.navigationHint}
           </p>
         </div>
