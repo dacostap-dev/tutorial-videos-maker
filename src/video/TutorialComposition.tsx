@@ -749,7 +749,7 @@ function ChapterScene({
         >
           <div
             style={{
-              width: 248,
+              width: 280,
               display: "flex",
               flexDirection: "column",
               gap: 5,
@@ -759,12 +759,12 @@ function ChapterScene({
               <div
                 key={item.id}
                 style={{
-                  minHeight: 54,
+                  minHeight: 62,
                   display: "flex",
                   alignItems: "center",
-                  gap: 14,
-                  padding: "10px 12px",
-                  borderRadius: 14,
+                  gap: 16,
+                  padding: "12px 16px",
+                  borderRadius: 16,
                   background:
                     index === scene.index
                       ? `rgba(${accentRgb},0.1)`
@@ -777,8 +777,8 @@ function ChapterScene({
               >
                 <div
                   style={{
-                    width: index === scene.index ? 8 : 6,
-                    height: index === scene.index ? 8 : 6,
+                    width: index === scene.index ? 9 : 7,
+                    height: index === scene.index ? 9 : 7,
                     borderRadius: "50%",
                     flexShrink: 0,
                     background:
@@ -796,7 +796,7 @@ function ChapterScene({
                         index === scene.index
                           ? accent
                           : "rgba(255,255,255,0.7)",
-                      fontSize: 14,
+                      fontSize: 15,
                       fontWeight: 600,
                     }}
                   >
@@ -804,10 +804,10 @@ function ChapterScene({
                   </div>
                   <div
                     style={{
-                      marginTop: 4,
+                      marginTop: 5,
                       color: "rgba(255,255,255,0.45)",
-                      fontSize: 12,
-                      lineHeight: 1.2,
+                      fontSize: 13,
+                      lineHeight: 1.25,
                     }}
                   >
                     {item.tag}
@@ -819,7 +819,7 @@ function ChapterScene({
 
           <div
             style={{
-              maxWidth: 248,
+              maxWidth: 280,
               color: "rgba(255,255,255,0.5)",
               fontSize: 15,
               lineHeight: 1.5,
@@ -907,7 +907,7 @@ function OutroScene({ config }: { config: TutorialConfig }) {
           marginTop: 26,
           color: "white",
           fontFamily: "DM Serif Display, serif",
-          fontSize: 34,
+          fontSize: 37,
           fontWeight: 700,
         }}
       >
@@ -918,7 +918,7 @@ function OutroScene({ config }: { config: TutorialConfig }) {
           maxWidth: 500,
           marginTop: 12,
           color: "rgba(255,255,255,0.55)",
-          fontSize: 17,
+          fontSize: 19,
           lineHeight: 1.5,
           textAlign: "center",
         }}
