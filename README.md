@@ -16,7 +16,11 @@ dinámica, no como una reproducción exacta del MP4 final.
 
 ## Personalizar Un Tutorial
 
-Edita `src/config/tutorial.ts`. La configuración controla:
+Edita el archivo correspondiente dentro de `src/config/tutorials/`. El registro
+de tutoriales está en `src/config/index.ts` y `defaultTutorialId` define cuál se
+usa en la web pública y como composición predeterminada de Remotion.
+
+Cada configuración controla:
 
 - Nombre de la marca, subtítulo y logo opcional.
 - Metadata, idioma y comportamiento de indexación.
@@ -27,9 +31,13 @@ Edita `src/config/tutorial.ts`. La configuración controla:
 - Duración de la introducción, outro y cues de audio de la narración.
 - Colores de acento, fondo y teléfono.
 
+Los valores compartidos del producto, como marca, tema, dimensiones de salida y
+mensajes comunes, están en `src/config/product.ts`. Una sección puede reutilizar
+esos valores y definir su propio contenido, vídeo, capítulos y audio.
+
 Para usar un logo personalizado, importa una imagen desde `src` y asígnala a
-`brand.logoSrc`. Para usar otro vídeo local, importa el asset y asígnalo a
-`video.src`.
+`brand.logoSrc`. Para usar otro vídeo local, coloca el asset en `public/assets/`
+y asígnalo a `video.src`.
 
 En modo `video`, el vídeo debe utilizar un formato compatible con navegadores,
 como MP4 con vídeo H.264. Actualiza `video.durationSeconds` cada vez que cambie
@@ -100,18 +108,23 @@ npm run video:studio
 npm run video:render
 ```
 
-Usa `npm run video:studio` para revisar la misma composición de Remotion que
-usa el render: timeline, intro, outro, audio y `videoHolds`. Usa `npm run dev`
-para revisar la experiencia interactiva de la web. Ambas interfaces comparten
-la configuración y el contenido, pero tienen objetivos distintos:
+Usa `npm run video:studio` para revisar las composiciones disponibles. Cada
+tutorial registrado aparece como una composición independiente, con su propia
+duración, FPS, resolución, timeline, intro, outro, audio y `videoHolds`. Usa
+`npm run dev` para revisar la experiencia interactiva de la web. Ambas
+interfaces comparten la configuración y el contenido, pero tienen objetivos
+distintos:
 
 - `npm run dev`: tutorial dinámico para usuarios.
 - `npm run video:studio`: preview interno para desarrolladores.
 - `npm run video:render`: render final en `out/tutorial.mp4`.
+- `npm run video:render:custom -- TutorialVideo-otroTutorial out/otro-tutorial.mp4`:
+  render de una configuración específica.
 
-El render utiliza el timeline de `src/config/tutorial.ts` y escribe
-`out/tutorial.mp4`. Guarda los vídeos fuente en `public/assets/` y refiérelos
-con una ruta como `assets/remate.mp4`.
+El render predeterminado utiliza `defaultTutorialId` y escribe
+`out/tutorial.mp4`. Para agregar otra sección, crea un archivo en
+`src/config/tutorials/` y regístralo en `src/config/index.ts`. Guarda los vídeos
+fuente en `public/assets/` y refiérelos con una ruta como `assets/remate.mp4`.
 
 ### Sincronizar El Audio Con El Vídeo
 

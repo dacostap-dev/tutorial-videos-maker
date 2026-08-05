@@ -1,18 +1,54 @@
 import { Composition } from "remotion"
-import { tutorialConfig } from "../config/tutorial"
+import {
+  defaultTutorialId,
+  getTutorialConfig,
+  tutorialConfigs,
+  type TutorialId,
+} from "../config"
+import type { TutorialConfig } from "../config/types"
 import TutorialComposition from "./TutorialComposition"
 import { getTotalDurationInFrames } from "./timeline"
 
-export default function RemotionRoot() {
+function TutorialCompositionDefinition({
+  id,
+  config,
+}: {
+  id: string
+  config: TutorialConfig
+}) {
   return (
     <Composition
-      id="TutorialVideo"
+      id={id}
       component={TutorialComposition}
-      durationInFrames={getTotalDurationInFrames(tutorialConfig)}
-      fps={tutorialConfig.output.fps}
-      width={tutorialConfig.output.width}
-      height={tutorialConfig.output.height}
-      defaultProps={{ config: tutorialConfig }}
+      durationInFrames={getTotalDurationInFrames(config)}
+      fps={config.output.fps}
+      width={config.output.width}
+      height={config.output.height}
+      defaultProps={{ config }}
     />
+  )
+}
+
+export default function RemotionRoot() {
+  const entries = Object.entries(
+    tutorialConfigs,
+  ) as [TutorialId, TutorialConfig][]
+
+  return (
+    <>
+      <TutorialCompositionDefinition
+        id="TutorialVideo"
+        config={getTutorialConfig(defaultTutorialId)}
+      />
+      {entries
+        .filter(([id]) => id !== defaultTutorialId)
+        .map(([id, config]) => (
+          <TutorialCompositionDefinition
+            key={id}
+            id={`TutorialVideo-${id}`}
+            config={config}
+          />
+        ))}
+    </>
   )
 }

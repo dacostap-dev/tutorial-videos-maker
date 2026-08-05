@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "format": "oxfmt",
     "video:studio": "remotion studio src/video/entry.ts",
-    "video:render": "remotion render src/video/entry.ts TutorialVideo out/tutorial.mp4"
+    "video:render": "remotion render src/video/entry.ts TutorialVideo out/tutorial.mp4",
+    "video:render:custom": "remotion render src/video/entry.ts"
   },
   "dependencies": {
     "@remotion/cli": "^4.0.505",

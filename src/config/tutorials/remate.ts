@@ -1,13 +1,9 @@
-import type { TutorialConfig } from "./types";
-import appIcon from "../appicon.jpg";
+import type { TutorialConfig } from "../types"
+import { productDefaults } from "../product"
 
-export const tutorialConfig = {
+export const remateConfig = {
+  ...productDefaults,
   mode: "video",
-  brand: {
-    name: "Maquinet",
-    eyebrow: "Fondos Colectivos",
-    logoSrc: appIcon,
-  },
 
   metadata: {
     title: "Maquinet | Remate de cuotas",
@@ -43,23 +39,6 @@ export const tutorialConfig = {
       durationSeconds: 3,
     },
   ],
-
-  output: {
-    width: 1920,
-    height: 1080,
-    fps: 30,
-    introDurationSeconds: 6,
-    outroDurationSeconds: 4,
-  },
-
-  timeline: {
-    chapterGapSeconds: 0,
-    photoTransitionSeconds: 0.35,
-  },
-
-  messages: {
-    videoError: "No se pudo cargar el vídeo del tutorial.",
-  },
 
   outro: {
     title: "¡Listo!",
@@ -236,13 +215,4 @@ export const tutorialConfig = {
       tag: "Remate confirmado",
     },
   ],
-
-  theme: {
-    accent: "#f59e0b",
-    accentRgb: "245,158,11",
-    background: "#07090f",
-    phoneSurface: "#0f1117",
-    introStart: "#0f1520",
-    introEnd: "#07090f",
-  },
-} satisfies TutorialConfig;
+} satisfies TutorialConfig
