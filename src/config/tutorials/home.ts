@@ -1,5 +1,5 @@
-import type { TutorialConfig } from "../types"
-import { productDefaults } from "../product"
+import type { TutorialConfig } from "../types";
+import { productDefaults } from "../product";
 
 export const homeConfig = {
   ...productDefaults,
@@ -23,12 +23,48 @@ export const homeConfig = {
 
   // Duración medida del MP4 convertido a partir de la grabación original.
   video: {
-    src: "assets/home.mp4",
+    src: "assets/tutorials/home/home.mp4",
     type: "video/mp4",
     durationSeconds: 76.567,
     autoPlay: true,
     muted: true,
   },
+
+  output: {
+    ...productDefaults.output,
+    introDurationSeconds: 10,
+  },
+
+  videoZooms: [
+    {
+      id: "contract-code",
+      sourceStartSeconds: 4.0,
+      sourceEndSeconds: 5.0,
+      scale: 3.5,
+      originX: 10,
+      originY: 10,
+      transitionSeconds: 1,
+    },
+    {
+      id: "contract-situation",
+      sourceStartSeconds: 7.0,
+      sourceEndSeconds: 8.0,
+      scale: 3.5,
+      originX: 90,
+      originY: 10,
+      transitionSeconds: 1,
+    },
+
+    {
+      id: "contract-certificado",
+      sourceStartSeconds: 10,
+      sourceEndSeconds: 11,
+      scale: 3.6,
+      originX: 90,
+      originY: 26,
+      transitionSeconds: 1,
+    },
+  ],
 
   outro: {
     title: "¡Listo!",
@@ -42,36 +78,42 @@ export const homeConfig = {
       timebase: "render",
       startSeconds: 0,
       text: "Desde el inicio de la aplicación puedes consultar la información de tu contrato y revisar tus principales movimientos.",
+      audioSrc: "audio/tutorials/home/processed/home-overview.m4a",
     },
     {
       id: "contract-information",
       timebase: "source",
-      startSeconds: 0,
+      startSeconds: 1,
       text: "En esta sección podrás ver el programa, el código de asociado y la situación de tu contrato.",
+      audioSrc: "audio/tutorials/home/processed/contract-information.m4a",
     },
     {
       id: "certificate-value",
       timebase: "source",
-      startSeconds: 5,
+      startSeconds: 7,
       text: "También encontrarás el valor del certificado asociado a tu contrato.",
+      audioSrc: "audio/tutorials/home/processed/certificate-value.m4a",
     },
     {
       id: "capital-progress",
       timebase: "source",
-      startSeconds: 10,
+      startSeconds: 12,
       text: "Además, podrás consultar el avance de tu cuota capital.",
+      audioSrc: "audio/tutorials/home/processed/capital-progress.m4a",
     },
     {
       id: "open-contract-selector",
       timebase: "source",
-      startSeconds: 30.5,
+      startSeconds: 26,
       text: "Para cambiar de contrato, toca el código de asociado.",
+      audioSrc: "audio/tutorials/home/processed/open-contract-selector.m4a",
     },
     {
       id: "switch-contract",
       timebase: "source",
-      startSeconds: 38,
+      startSeconds: 30,
       text: "Selecciona otro contrato y la información de la pantalla se actualizará.",
+      audioSrc: "audio/tutorials/home/processed/switch-contract.m4a",
     },
     {
       id: "payment-status",
@@ -168,4 +210,4 @@ export const homeConfig = {
       tag: "Resumen del contrato",
     },
   ],
-} satisfies TutorialConfig
+} satisfies TutorialConfig;

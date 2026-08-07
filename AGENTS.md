@@ -13,10 +13,10 @@ relacionados con la tarea y seguí los imports solo cuando sea necesario.
 
 - `src/main.tsx` - Entrada de React; importa `src/index.css` y monta `src/App.tsx` en `#root`.
 - `src/App.tsx` - Componente principal de la previsualización interactiva.
-- `src/config/tutorial.ts` - Configuración editable de marca, contenido, vídeo, metadata y tema.
+- `src/config/tutorials/` - Configuraciones editables de marca, contenido, vídeo, metadata y tema por tutorial.
 - `src/components/` - Componentes visuales reutilizables del reproductor tutorial.
 - `src/video/` - Composición Remotion, timeline y entrada del renderizador.
-- `public/assets/` - Vídeos e imágenes estáticas utilizadas por la previsualización y el renderizador.
+- `public/assets/tutorials/` - Vídeos e imágenes estáticas organizadas por tutorial.
 - `src/index.css` - Entrada global de CSS e importación de Tailwind CSS v4.
 - `index.html` - Shell HTML de Vite que contiene `#root` y carga `src/main.tsx`.
 - `package.json` - Dependencias y scripts de desarrollo, build, render y formato.

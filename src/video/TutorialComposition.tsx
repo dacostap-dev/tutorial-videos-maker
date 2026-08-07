@@ -2,6 +2,7 @@ import { useEffect, useRef, type CSSProperties } from "react"
 import {
   AbsoluteFill,
   Audio,
+  Easing,
   Loop,
   OffthreadVideo,
   Sequence,
@@ -384,6 +385,95 @@ function VideoHoldLayer({
   )
 }
 
+function getVideoZoomStyle(config: TutorialConfig, sourceSeconds: number) {
+  const zoom = (config.videoZooms ?? []).find((candidate) => {
+    const transition = candidate.transitionSeconds ?? 0
+
+    return (
+      sourceSeconds >= candidate.sourceStartSeconds - transition &&
+      sourceSeconds <= candidate.sourceEndSeconds + transition
+    )
+  })
+
+  if (!zoom) {
+    return {
+      scale: 1,
+      originX: 50,
+      originY: 50,
+    }
+  }
+
+  const transition = zoom.transitionSeconds ?? 0
+  let scale = zoom.scale
+
+  if (transition > 0 && sourceSeconds < zoom.sourceStartSeconds) {
+    scale = interpolate(
+      sourceSeconds,
+      [zoom.sourceStartSeconds - transition, zoom.sourceStartSeconds],
+      [1, zoom.scale],
+      {
+        easing: Easing.inOut(Easing.ease),
+        extrapolateLeft: "clamp",
+        extrapolateRight: "clamp",
+      },
+    )
+  } else if (transition > 0 && sourceSeconds > zoom.sourceEndSeconds) {
+    scale = interpolate(
+      sourceSeconds,
+      [zoom.sourceEndSeconds, zoom.sourceEndSeconds + transition],
+      [zoom.scale, 1],
+      {
+        easing: Easing.inOut(Easing.ease),
+        extrapolateLeft: "clamp",
+        extrapolateRight: "clamp",
+      },
+    )
+  }
+
+  return {
+    scale,
+    originX: zoom.originX,
+    originY: zoom.originY,
+  }
+}
+
+function ZoomedVideoSegment({
+  config,
+  segment,
+}: {
+  config: TutorialConfig
+  segment: VideoSegment
+}) {
+  const frame = useCurrentFrame()
+  const sourceFrame =
+    segment.type === "hold"
+      ? segment.sourceFrame
+      : segment.sourceStartFrame + frame
+  const zoom = getVideoZoomStyle(config, sourceFrame / config.output.fps)
+  const zoomStyle = {
+    position: "absolute",
+    inset: 0,
+    transform: `scale(${zoom.scale})`,
+    transformOrigin: `${zoom.originX}% ${zoom.originY}%`,
+  } as const
+
+  return (
+    <div style={zoomStyle}>
+      {segment.type === "hold" ? (
+        <VideoHoldLayer config={config} segment={segment} />
+      ) : (
+        <OffthreadVideo
+          src={mediaSource(config.video.src)}
+          trimBefore={segment.sourceStartFrame}
+          trimAfter={segment.sourceEndFrame}
+          muted={config.video.muted}
+          style={{ width: "100%", height: "100%", objectFit: "cover" }}
+        />
+      )}
+    </div>
+  )
+}
+
 function ContinuousVideoPhone({ config }: { config: TutorialConfig }) {
   const segments = getVideoSegments(config)
 
@@ -409,17 +499,7 @@ function ContinuousVideoPhone({ config }: { config: TutorialConfig }) {
           from={segment.from}
           durationInFrames={segment.durationInFrames}
         >
-          {segment.type === "hold" ? (
-            <VideoHoldLayer config={config} segment={segment} />
-          ) : (
-            <OffthreadVideo
-              src={mediaSource(config.video.src)}
-              trimBefore={segment.sourceStartFrame}
-              trimAfter={segment.sourceEndFrame}
-              muted={config.video.muted}
-              style={{ width: "100%", height: "100%", objectFit: "cover" }}
-            />
-          )}
+          <ZoomedVideoSegment config={config} segment={segment} />
         </Sequence>
       ))}
       <div

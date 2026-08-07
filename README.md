@@ -36,8 +36,19 @@ mensajes comunes, están en `src/config/product.ts`. Una sección puede reutiliz
 esos valores y definir su propio contenido, vídeo, capítulos y audio.
 
 Para usar un logo personalizado, importa una imagen desde `src` y asígnala a
-`brand.logoSrc`. Para usar otro vídeo local, coloca el asset en `public/assets/`
-y asígnalo a `video.src`.
+`brand.logoSrc`. Para usar otro vídeo local, coloca el asset en la carpeta del
+tutorial dentro de `public/assets/` y asígnalo a `video.src`.
+
+Los assets se organizan por tutorial para evitar colisiones entre archivos con
+nombres iguales:
+
+```text
+public/assets/tutorials/home/home.mp4
+public/assets/tutorials/remate/remate.mp4
+public/audio/tutorials/home/processed/<cue>.m4a
+public/audio/tutorials/remate/processed/<cue>.m4a
+public/audio/shared/<efecto>.wav
+```
 
 En modo `video`, el vídeo debe utilizar un formato compatible con navegadores,
 como MP4 con vídeo H.264. Actualiza `video.durationSeconds` cada vez que cambie
@@ -124,7 +135,8 @@ distintos:
 El render predeterminado utiliza `defaultTutorialId` y escribe
 `out/tutorial.mp4`. Para agregar otra sección, crea un archivo en
 `src/config/tutorials/` y regístralo en `src/config/index.ts`. Guarda los vídeos
-fuente en `public/assets/` y refiérelos con una ruta como `assets/remate.mp4`.
+fuente en la carpeta del tutorial y refiérelos con una ruta como
+`assets/tutorials/remate/remate.mp4`.
 
 ### Sincronizar El Audio Con El Vídeo
 
@@ -236,30 +248,29 @@ Indicaciones recomendadas para la voz:
 - Leer el guion exactamente como está escrito.
 - Pronunciar de forma consistente los nombres de productos y términos técnicos.
 
-Graba un archivo por cada capítulo configurado, utilizando nombres que
-coincidan con sus IDs:
+Graba un archivo por cada cue configurado, utilizando nombres que coincidan con
+sus IDs. Mantén los originales fuera de `public/`:
 
 ```text
-audio/raw/intro.wav
-audio/raw/step-1.wav
-audio/raw/step-2.wav
-audio/raw/step-3.wav
+audio-source/remate/raw/intro.wav
+audio-source/remate/raw/step-1.wav
+audio-source/remate/raw/step-2.wav
+audio-source/remate/raw/step-3.wav
 ```
 
-Mantén las grabaciones originales fuera de `public/` y coloca las versiones
-limpias en:
+Coloca las versiones procesadas dentro de la carpeta del tutorial:
 
 ```text
-public/audio/intro.wav
-public/audio/step-1.wav
-public/audio/step-2.wav
-public/audio/step-3.wav
+public/audio/tutorials/remate/processed/intro.wav
+public/audio/tutorials/remate/processed/step-1.wav
+public/audio/tutorials/remate/processed/step-2.wav
+public/audio/tutorials/remate/processed/step-3.wav
 ```
 
-Para archivos M4A procesados, puedes usar una subcarpeta como
-`public/audio/processed/` y referenciarla desde `audioSrc`.
+Los efectos usados por varios tutoriales pueden guardarse en
+`public/audio/shared/`.
 
-Después referencia cada archivo en `src/config/tutorial.ts` dentro de
+Después referencia cada archivo en `src/config/tutorials/<id>.ts` dentro de
 `audioCues`:
 
 ```ts
@@ -267,7 +278,7 @@ Después referencia cada archivo en `src/config/tutorial.ts` dentro de
   id: "select-installments",
   startSeconds: 11,
   text: "Escribe la cantidad de cuotas con las que deseas participar y pulsa Siguiente.",
-  audioSrc: "audio/select-installments.wav",
+  audioSrc: "audio/tutorials/remate/processed/select-installments.m4a",
 }
 ```
 
@@ -279,20 +290,20 @@ conversión a mono, porque pueden cambiar el inicio o el carácter de la voz.
 Por ejemplo:
 
 ```bash
-ffmpeg -y -i public/audio/intro-question.m4a \
+ffmpeg -y -i audio-source/remate/raw/intro-question.m4a \
   -af "atrim=start=1.5,asetpts=PTS-STARTPTS" \
   -c:a aac \
   -b:a 192k \
   -ar 48000 \
   -ac 2 \
-  public/audio/processed/intro-question.m4a
+  public/audio/tutorials/remate/processed/intro-question.m4a
 ```
 
 Si necesitas quitar solo un segundo, cambia `start=1.5` por `start=1.0`. WAV,
 MP3 y M4A están soportados, pero los archivos M4A procesados se pueden guardar
-en `public/audio/processed/`. Revisa la duración de cada audio contra el
-siguiente cue y el final de su escena; un audio que se extienda fuera del
-timeline puede ser recortado durante el render.
+en `public/audio/tutorials/<id>/processed/`. Revisa la duración de cada audio
+contra el siguiente cue y el final de su escena; un audio que se extienda fuera
+del timeline puede ser recortado durante el render.
 
 Como la voz es generada por un servicio de IA, revisa las condiciones de uso y
 los requisitos del producto antes de publicar el tutorial. Añade una

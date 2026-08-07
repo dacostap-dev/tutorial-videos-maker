@@ -14,6 +14,16 @@ export type VideoHold = {
   durationSeconds: number
 }
 
+export type VideoZoom = {
+  id: string
+  sourceStartSeconds: number
+  sourceEndSeconds: number
+  scale: number
+  originX: number
+  originY: number
+  transitionSeconds?: number
+}
+
 export type Chapter = {
   id: string
   label: string
@@ -63,6 +73,7 @@ export type TutorialConfig = {
     poster?: string
   }
   videoHolds?: VideoHold[]
+  videoZooms?: VideoZoom[]
   output: {
     width: number
     height: number
