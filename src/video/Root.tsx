@@ -45,7 +45,7 @@ export default function RemotionRoot() {
         .map(([id, config]) => (
           <TutorialCompositionDefinition
             key={id}
-            id={`TutorialVideo-${id}`}
+            id={`TutorialVideo-${id.replace(/_/g, "-")}`}
             config={config}
           />
         ))}

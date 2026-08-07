@@ -1,7 +1,9 @@
 import type { TutorialConfig } from "./types"
+import { homeConfig } from "./tutorials/home"
 import { remateConfig } from "./tutorials/remate"
 
 export const tutorialConfigs = {
+  home: homeConfig,
   remate: remateConfig,
 } satisfies Record<string, TutorialConfig>
 
