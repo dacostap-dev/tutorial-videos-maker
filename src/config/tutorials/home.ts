@@ -1,5 +1,5 @@
-import type { TutorialConfig } from "../types"
-import { productDefaults } from "../product"
+import type { TutorialConfig } from "../types";
+import { productDefaults } from "../product";
 
 export const homeConfig = {
   ...productDefaults,
@@ -25,7 +25,7 @@ export const homeConfig = {
   video: {
     src: "assets/tutorials/home/home_corto.mp4",
     type: "video/mp4",
-    durationSeconds: 59.933,
+    durationSeconds: 59.523333,
     autoPlay: true,
     muted: true,
   },
@@ -104,64 +104,58 @@ export const homeConfig = {
     {
       id: "open-contract-selector",
       timebase: "source",
-      startSeconds: 26,
+      startSeconds: 16,
       text: "Para cambiar de contrato, toca el código de asociado.",
       audioSrc: "audio/tutorials/home/processed/open-contract-selector.m4a",
     },
     {
       id: "switch-contract",
       timebase: "source",
-      startSeconds: 30,
+      startSeconds: 20,
       text: "Selecciona otro contrato y la información de la pantalla se actualizará.",
       audioSrc: "audio/tutorials/home/processed/switch-contract.m4a",
     },
     {
       id: "payment-status",
       timebase: "source",
-      startSeconds: 40,
+      startSeconds: 26,
       text: "En estado de pago podrás verificar si tus pagos se encuentran al día o pendientes.",
       audioSrc: "audio/tutorials/home/processed/payment-status.m4a",
     },
     {
       id: "open-pending-payments",
       timebase: "source",
-      startSeconds: 45,
+      startSeconds: 32,
       text: "Si el estado aparece como Pendiente, toca Pagar para continuar con la gestión de tus pagos.",
       audioSrc: "audio/tutorials/home/processed/open-pending-payments.m4a",
     },
     {
       id: "open-recent-payments",
       timebase: "source",
-      startSeconds: 51,
+      startSeconds: 38,
       text: "En la sección Mis últimos pagos encontrarás el historial de los pagos realizados recientemente.",
       audioSrc: "audio/tutorials/home/processed/open-recent-payments.m4a",
     },
     {
       id: "payment-summary",
       timebase: "source",
-      startSeconds: 58,
+      startSeconds: 44,
       text: "Cada registro muestra la fecha y el importe correspondiente al pago.",
       audioSrc: "audio/tutorials/home/processed/payment-summary.m4a",
     },
     {
       id: "payment-details",
       timebase: "source",
-      startSeconds: 62.5,
+      startSeconds: 48,
       text: "Para consultar más información, toca el botón de detalle del pago que deseas revisar.",
       audioSrc: "audio/tutorials/home/processed/payment-details.m4a",
     },
     {
       id: "account-statement",
       timebase: "source",
-      startSeconds: 72,
+      startSeconds: 55,
       text: "Toca Estado de cuenta para solicitar que la información de tu contrato sea enviada a tu correo electrónico.",
       audioSrc: "audio/tutorials/home/processed/account-statement.m4a",
-    },
-    {
-      id: "outro",
-      timebase: "render",
-      startSeconds: 82.567,
-      text: "Desde el inicio de Maquinet puedes consultar la información de tu contrato y mantener tus pagos bajo control.",
     },
   ],
 
@@ -182,7 +176,7 @@ export const homeConfig = {
       description:
         "Consulta el programa, el código de asociado, la situación del contrato, el valor de tu certificado y el avance de tu cuota capital. También aprenderás cómo cambiar entre tus contratos desde el selector.",
       sourceStart: 0,
-      sourceEnd: 50,
+      sourceEnd: 26,
       tag: "Información del contrato",
     },
     {
@@ -191,8 +185,8 @@ export const homeConfig = {
       title: "Accede a tus pagos pendientes",
       description:
         "Si tu estado de pago aparece como Pendiente, toca Pagar para continuar con la gestión de tus pagos.",
-      sourceStart: 50,
-      sourceEnd: 60,
+      sourceStart: 26,
+      sourceEnd: 38,
       tag: "Pagos pendientes",
     },
     {
@@ -201,8 +195,8 @@ export const homeConfig = {
       title: "Revisa tus últimos pagos",
       description:
         "Consulta la fecha, el importe y el detalle de los pagos que has realizado recientemente.",
-      sourceStart: 60,
-      sourceEnd: 72,
+      sourceStart: 38,
+      sourceEnd: 55,
       tag: "Historial de pagos",
     },
     {
@@ -211,9 +205,9 @@ export const homeConfig = {
       title: "Consulta tu estado de cuenta",
       description:
         "Solicita el estado de cuenta y recíbelo en el correo registrado del asociado.",
-      sourceStart: 72,
-      sourceEnd: 76.567,
+      sourceStart: 55,
+      sourceEnd: 59.523333,
       tag: "Resumen del contrato",
     },
   ],
-} satisfies TutorialConfig
+} satisfies TutorialConfig;
