@@ -30,6 +30,17 @@ export const homeConfig = {
     muted: true,
   },
 
+  videoHolds: [
+    {
+      sourceAtSeconds: 48,
+      durationSeconds: 2.5,
+    },
+    {
+      sourceAtSeconds: 59.466667,
+      durationSeconds: 3,
+    },
+  ],
+
   output: {
     ...productDefaults.output,
     introDurationSeconds: 10,
@@ -77,7 +88,7 @@ export const homeConfig = {
       id: "home-overview",
       timebase: "render",
       startSeconds: 0,
-      text: "Desde el inicio de la aplicación puedes consultar la información de tu contrato y revisar tus principales movimientos.",
+      text: "En este tutorial aprenderás a revisar la información de tu contrato, consultar tus pagos y solicitar tu estado de cuenta desde la aplicación.",
       audioSrc: "audio/tutorials/home/processed/home-overview.m4a",
     },
     {
@@ -125,21 +136,21 @@ export const homeConfig = {
     {
       id: "open-pending-payments",
       timebase: "source",
-      startSeconds: 32,
+      startSeconds: 31.5,
       text: "Si el estado aparece como Pendiente, toca Pagar para continuar con la gestión de tus pagos.",
       audioSrc: "audio/tutorials/home/processed/open-pending-payments.m4a",
     },
     {
       id: "open-recent-payments",
       timebase: "source",
-      startSeconds: 38,
+      startSeconds: 37,
       text: "En la sección Mis últimos pagos encontrarás el historial de los pagos realizados recientemente.",
       audioSrc: "audio/tutorials/home/processed/open-recent-payments.m4a",
     },
     {
       id: "payment-summary",
       timebase: "source",
-      startSeconds: 44,
+      startSeconds: 43.5,
       text: "Cada registro muestra la fecha y el importe correspondiente al pago.",
       audioSrc: "audio/tutorials/home/processed/payment-summary.m4a",
     },
