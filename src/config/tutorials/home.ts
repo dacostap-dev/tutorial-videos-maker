@@ -1,5 +1,5 @@
-import type { TutorialConfig } from "../types";
-import { productDefaults } from "../product";
+import type { TutorialConfig } from "../types"
+import { productDefaults } from "../product"
 
 export const homeConfig = {
   ...productDefaults,
@@ -23,9 +23,9 @@ export const homeConfig = {
 
   // Duración medida del MP4 convertido a partir de la grabación original.
   video: {
-    src: "assets/tutorials/home/home.mp4",
+    src: "assets/tutorials/home/home_corto.mp4",
     type: "video/mp4",
-    durationSeconds: 76.567,
+    durationSeconds: 59.933,
     autoPlay: true,
     muted: true,
   },
@@ -118,38 +118,44 @@ export const homeConfig = {
     {
       id: "payment-status",
       timebase: "source",
-      startSeconds: 50,
-      text: "En Estado de pago podrás verificar si tus pagos se encuentran al día o pendientes.",
+      startSeconds: 40,
+      text: "En estado de pago podrás verificar si tus pagos se encuentran al día o pendientes.",
+      audioSrc: "audio/tutorials/home/processed/payment-status.m4a",
     },
     {
       id: "open-pending-payments",
       timebase: "source",
-      startSeconds: 53,
+      startSeconds: 45,
       text: "Si el estado aparece como Pendiente, toca Pagar para continuar con la gestión de tus pagos.",
+      audioSrc: "audio/tutorials/home/processed/open-pending-payments.m4a",
     },
     {
       id: "open-recent-payments",
       timebase: "source",
-      startSeconds: 60,
+      startSeconds: 51,
       text: "En la sección Mis últimos pagos encontrarás el historial de los pagos realizados recientemente.",
+      audioSrc: "audio/tutorials/home/processed/open-recent-payments.m4a",
     },
     {
       id: "payment-summary",
       timebase: "source",
-      startSeconds: 62,
+      startSeconds: 58,
       text: "Cada registro muestra la fecha y el importe correspondiente al pago.",
+      audioSrc: "audio/tutorials/home/processed/payment-summary.m4a",
     },
     {
       id: "payment-details",
       timebase: "source",
-      startSeconds: 65,
+      startSeconds: 62.5,
       text: "Para consultar más información, toca el botón de detalle del pago que deseas revisar.",
+      audioSrc: "audio/tutorials/home/processed/payment-details.m4a",
     },
     {
       id: "account-statement",
       timebase: "source",
       startSeconds: 72,
       text: "Toca Estado de cuenta para solicitar que la información de tu contrato sea enviada a tu correo electrónico.",
+      audioSrc: "audio/tutorials/home/processed/account-statement.m4a",
     },
     {
       id: "outro",
@@ -210,4 +216,4 @@ export const homeConfig = {
       tag: "Resumen del contrato",
     },
   ],
-} satisfies TutorialConfig;
+} satisfies TutorialConfig
