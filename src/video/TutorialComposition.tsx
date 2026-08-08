@@ -101,6 +101,7 @@ function AppIcon({ config, size }: AppIconProps) {
 
 function IntroCard({ config }: { config: TutorialConfig }) {
   const frame = useCurrentFrame()
+  const pulseCycleFrames = 72
   const opacity = interpolate(frame, [0, 15], [0, 1], {
     extrapolateRight: "clamp",
   })
@@ -136,8 +137,12 @@ function IntroCard({ config }: { config: TutorialConfig }) {
               height: 86 + ring * 44,
               borderRadius: "50%",
               border: `1px solid rgba(${theme.accentRgb},0.2)`,
-              transform: `scale(${1 + Math.min(frame / 90, 0.55)})`,
-              opacity: Math.max(0, 0.6 - frame / 90),
+              transform: `scale(${1 + (((frame + (ring - 1) * 15) % pulseCycleFrames) / pulseCycleFrames) * 0.55})`,
+              opacity:
+                0.6 -
+                (((frame + (ring - 1) * 15) % pulseCycleFrames) /
+                  pulseCycleFrames) *
+                  0.6,
             }}
           />
         ))}

@@ -6,18 +6,18 @@ export const homeConfig = {
   mode: "video",
 
   metadata: {
-    title: "Maquinet | Inicio de la aplicación",
+    title: "Maquinet | Información de tu contrato y tus pagos",
     description:
-      "Tutorial interactivo sobre las funcionalidades disponibles desde el inicio de Maquinet.",
+      "Tutorial interactivo para consultar la información de tu contrato, revisar tus pagos y solicitar tu estado de cuenta en Maquinet.",
     language: "es",
     noIndex: true,
   },
 
   intro: {
     sectionLabel: "Sección que verás",
-    sectionName: "Inicio de la aplicación",
+    sectionName: "Información de tu contrato y tus pagos",
     description:
-      "Conoce la información de tu contrato y las opciones para revisar tus pagos y solicitar tu estado de cuenta desde Inicio.",
+      "Aprende a consultar la información de tu contrato, revisar tus pagos y solicitar tu estado de cuenta desde Maquinet.",
     navigationHint: "Explora con las flechas o elige un paso",
   },
 
@@ -44,13 +44,14 @@ export const homeConfig = {
   output: {
     ...productDefaults.output,
     introDurationSeconds: 10,
+    outroDurationSeconds: 9,
   },
 
   videoZooms: [
     {
       id: "contract-code",
-      sourceStartSeconds: 4.0,
-      sourceEndSeconds: 5.0,
+      sourceStartSeconds: 3.5,
+      sourceEndSeconds: 5,
       scale: 3.5,
       originX: 10,
       originY: 10,
@@ -58,21 +59,29 @@ export const homeConfig = {
     },
     {
       id: "contract-situation",
-      sourceStartSeconds: 7.0,
-      sourceEndSeconds: 8.0,
+      sourceStartSeconds: 7,
+      sourceEndSeconds: 8.2,
       scale: 3.5,
       originX: 90,
       originY: 10,
       transitionSeconds: 1,
     },
-
     {
       id: "contract-certificado",
-      sourceStartSeconds: 10,
-      sourceEndSeconds: 11,
+      sourceStartSeconds: 10.4,
+      sourceEndSeconds: 11.2,
       scale: 3.6,
       originX: 90,
       originY: 26,
+      transitionSeconds: 1,
+    },
+    {
+      id: "payment-state",
+      sourceStartSeconds: 32.5,
+      sourceEndSeconds: 34,
+      scale: 3.6,
+      originX: 90,
+      originY: 40,
       transitionSeconds: 1,
     },
   ],
@@ -80,7 +89,7 @@ export const homeConfig = {
   outro: {
     title: "¡Listo!",
     description:
-      "Desde el inicio de Maquinet puedes consultar la información de tu contrato de forma rápida y sencilla.",
+      "Ahora ya sabes cómo consultar la información de tu contrato, revisar tus pagos y solicitar tu estado de cuenta desde Maquinet.",
   },
 
   audioCues: [
@@ -88,14 +97,14 @@ export const homeConfig = {
       id: "home-overview",
       timebase: "render",
       startSeconds: 0,
-      text: "En este tutorial aprenderás a revisar la información de tu contrato, consultar tus pagos y solicitar tu estado de cuenta desde la aplicación.",
+      text: "En este tutorial aprenderás a consultar la información de tu contrato, revisar tus pagos y solicitar tu estado de cuenta desde la aplicación.",
       audioSrc: "audio/tutorials/home/processed/home-overview.m4a",
     },
     {
       id: "contract-information",
       timebase: "source",
-      startSeconds: 1,
-      text: "En esta sección podrás ver el programa, el código de asociado y la situación de tu contrato.",
+      startSeconds: 0.3,
+      text: "Desde la pantalla de inicio podrás consultar el programa, tu código de asociado y la situación de tu contrato.",
       audioSrc: "audio/tutorials/home/processed/contract-information.m4a",
     },
     {
@@ -168,13 +177,20 @@ export const homeConfig = {
       text: "Toca Estado de cuenta para solicitar que la información de tu contrato sea enviada a tu correo electrónico.",
       audioSrc: "audio/tutorials/home/processed/account-statement.m4a",
     },
+    {
+      id: "outro",
+      timebase: "render",
+      startSeconds: 75.023333,
+      text: "Ahora ya sabes cómo consultar la información de tu contrato, revisar tus pagos y solicitar tu estado de cuenta desde Maquinet.",
+      audioSrc: "audio/tutorials/home/processed/outro.m4a",
+    },
   ],
 
   chapters: [
     {
       id: "intro",
       label: "Introducción",
-      title: "Sección Inicio",
+      title: "Consulta tu contrato y tus pagos",
       description:
         "Conoce las opciones disponibles desde la pantalla principal de Maquinet para consultar la información de tu contrato.",
       sourceStart: null,
